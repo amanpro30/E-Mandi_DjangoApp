@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>EDIT PROFILE PAGE</title>
+    <style>
+        .form-control {
+            width: 100%;
+        }
+        .pad{
+            padding-left:30%;
+        }
+          .col1 {width:50%;}
+    
+    @media only screen and (max-width: 768px) {
+        .col1{
+            width: 95%;
+        }
+        .pad{
+            padding-left:2%;
+        }
+  }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <br>
+<div class="pad">
+    <div class="card col1" >
+        <div class="card-body">
+            <h1 class="text-center"><i>Edit Profile</i><hr></h1><br>
+            <div class="container " >
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    First name: {{ form.first_name }}
+                    Last name: {{ form.last_name }}
+                    Email: {{ form.email }}
+                    {% comment %} Password: {{ form.password }} {% endcomment %}
+                    <br>
+                    Phone: {{ form1.phone }}
+                    City: {{ form1.city }}
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+                </form>
+                <br>
+                <a  href='/accounts/change-password'>
+                    <button type="button" class="btn btn-danger btn-block">Change password</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
