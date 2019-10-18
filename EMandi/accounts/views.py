@@ -4,11 +4,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import *
+from accounts.models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+from rest_framework import permissions, status, generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import UserSerializer, UserSerializerWithToken
 
 def index(request):
     return render(request,'accounts/index.html')
@@ -50,23 +55,6 @@ def register(request):
                           {'user_form':user_form,
                            'profile_form':profile_form,
                            'registered':registered})
-# def user_login(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(username=username, password=password)
-#         if user:
-#             if user.is_active:
-#                 login(request,user)
-#                 return HttpResponseRedirect(reverse('index'))
-#             else:
-#                 return HttpResponse("Your account was inactive.")
-#         else:
-#             print("Someone tried to login and failed.")
-#             print("They used username: {} and password: {}".format(username,password))
-#             return HttpResponse("Invalid login details given")
-#     else:
-#         return render(request, 'accounts/login.html', {})
 
 @login_required
 def view_profile(request,pk=None):
@@ -116,4 +104,32 @@ def change_password(request):        #change password view
         args={'form':form}
         return render(request,'accounts/change_password.html',args)
 
+#====================API PART========================================================================
 
+@api_view(['GET'])
+def current_user(request):
+    """
+    Determine the current user by their token, and return their data
+    """
+    
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
+
+class UserList(APIView):
+    """
+    Create a new user. It's called 'UserList' because normally we'd have a get
+    method here too, for retrieving a list of all User objects.
+    """
+
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        serializer = UserSerializerWithToken(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class signup(generics.ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = Profile1Serializer
