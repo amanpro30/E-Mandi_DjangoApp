@@ -13,7 +13,8 @@ from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken
+from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer
+from rest_framework.permissions import IsAdminUser, AllowAny
 
 def index(request):
     return render(request,'accounts/index.html')
@@ -130,6 +131,24 @@ class UserList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class signup(generics.ListCreateAPIView):
+class Signup(generics.ListCreateAPIView):
+    serializer_class = UserSerializerWithToken
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = UserSerializerWithToken(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        print('hello')
+        return super().create(request, *args, **kwargs)
+
+class profile(generics.ListCreateAPIView):
     queryset = UserProfile.objects.all()
-    serializer_class = Profile1Serializer
+    serializer_class = ProfileSerializer
+    
+    
