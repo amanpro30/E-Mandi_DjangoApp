@@ -8,8 +8,9 @@ from accounts.models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-
 from rest_framework import permissions, status, generics, viewsets
+from django.contrib.auth.models import User
+from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -112,8 +113,11 @@ def current_user(request):
     """
     Determine the current user by their token, and return their data
     """
-    
+    print('&&')
     serializer = UserSerializer(request.user)
+    print(request.user)
+    user_instance = User.objects.get(username=request.user)
+    print(getattr(user_instance,'email'))
     return Response(serializer.data)
 
 class UserList(APIView):
