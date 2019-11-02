@@ -70,11 +70,11 @@ class User2Serializer(serializers.ModelSerializer):
         return instance
 
 class RajaSerializer(serializers.ModelSerializer):
-    user=UserSerializer(write_only=True)
+    #user=UserSerializer(write_only=True)
     
     class Meta:
          model=UserProfile
-         fields=('user', 'company',  'city','street', 'aadharcard', 'pincode')
+         fields=( 'company',  'city','street', 'aadharcard', 'pincode', 'phone', 'state',)
 
 
 

@@ -168,8 +168,9 @@ class profile_change2(generics.ListCreateAPIView):
     #         return Response(serializer.data)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class raja2(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class=RajaSerializer
+class raja2(generics.ListCreateAPIView):
     queryset=UserProfile.objects.all()
+    serializer_class=RajaSerializer
+    
     
     
