@@ -8,12 +8,13 @@ from accounts.models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from rest_framework import permissions, status, generics, viewsets
 from django.contrib.auth.models import User
 from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer
+from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer,  User2Serializer,RajaSerializer
 from rest_framework.permissions import IsAdminUser, AllowAny
 
 def index(request):
@@ -150,10 +151,25 @@ class Signup(generics.ListCreateAPIView):
         print('hello')
         return super().create(request, *args, **kwargs)
 
-        
+class profile_change(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = User2Serializer
+    queryset = User.objects.all()
 
-class profile(generics.ListCreateAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = ProfileSerializer
+    lookup_field = 'username'
+    
+class profile_change2(generics.ListCreateAPIView):
+    queryset=User.objects.all()
+    serializer_class=User2Serializer
+    # def put(self, request, *args, **kwargs):
+    #     serializer = ProfileSerializer(data=request.data)
+        
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class raja2(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class=RajaSerializer
+    queryset=UserProfile.objects.all()
     
     

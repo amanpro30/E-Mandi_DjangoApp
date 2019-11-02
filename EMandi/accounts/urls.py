@@ -5,6 +5,7 @@ from django.conf.urls import url
 from accounts import views as user_views
 from .views import *
 
+
 app_name = "accounts"
 
 
@@ -20,8 +21,9 @@ urlpatterns = [
     path('current_user/', current_user),
     path('users/', UserList.as_view()),
     path('signup/',Signup.as_view()),
-    path('profile1/', profile.as_view()),
-    
+    path('profile1/<username>/', profile_change.as_view()),
+    path('profile2/', profile_change2.as_view()),
+    path('raja/',raja2.as_view())
     
 
 ]

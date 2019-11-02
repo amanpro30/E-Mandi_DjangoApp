@@ -11,12 +11,8 @@ class UserProfile(models.Model):
     state = models.CharField(max_length =100, default='')
     city = models.CharField(max_length =100, default='')
     street = models.CharField(max_length =500, default='')
-    aadharcard = models.BigIntegerField(default=0)
+    aadharcard = models.BigIntegerField( default=0)
     pincode = models.IntegerField(default=0)
-
-
-
-
 
     def __str__(self):
         return self.user.username
