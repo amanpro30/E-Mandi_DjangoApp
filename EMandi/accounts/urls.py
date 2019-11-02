@@ -19,7 +19,8 @@ urlpatterns = [
     
     path('current_user/', current_user),
     path('users/', UserList.as_view()),
-    path('signup/',signup.as_view()),
+    path('signup/',Signup.as_view()),
+    path('profile1/', profile.as_view()),
     
     
 

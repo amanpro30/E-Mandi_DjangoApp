@@ -43,10 +43,14 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
+    'transaction',
+    'order',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,7 +58,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -69,9 +72,10 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ORIGIN_WHITELIST = (
-    'htttps://localhost:3000',
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'https://localhost:3000',
+# )
+CORS_ORIGIN_ALLOW_ALL= True
 
 
 ROOT_URLCONF = 'EMandi.urls'
@@ -132,7 +136,7 @@ JWT_AUTH = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -158,4 +162,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'pioneer.deo@gmail.com'
 EMAIL_HOST_PASSWORD = 'tommyjerry'
-
+# AUTH_USER_MODEL = 'accounts.User'
