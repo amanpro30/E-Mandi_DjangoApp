@@ -160,6 +160,7 @@ class profile_change(generics.RetrieveUpdateDestroyAPIView):
 class profile_change2(generics.ListCreateAPIView):
     queryset=User.objects.all()
     serializer_class=User2Serializer
+    
     # def put(self, request, *args, **kwargs):
     #     serializer = ProfileSerializer(data=request.data)
         
@@ -168,9 +169,14 @@ class profile_change2(generics.ListCreateAPIView):
     #         return Response(serializer.data)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class raja2(generics.ListCreateAPIView):
-    queryset=UserProfile.objects.all()
+class raja2(generics.RetrieveUpdateDestroyAPIView):
+    
     serializer_class=RajaSerializer
+    queryset=UserProfile.objects.all()
+    
+    # def perform_update(self, serializer):
+    #     serializer.save(user=self.request.user)
+
     
     
     
