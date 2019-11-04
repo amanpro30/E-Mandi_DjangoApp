@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from order.serializers import *
-from rest_framework import permissions, status, generics
+from rest_framework import permissions, status, generics, mixins
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -9,29 +9,43 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from order.models import MarketOrder
+from django.contrib.auth.models import User
 
 
-class MarketOrder(generics.ListCreateAPIView):
+class MarketOrder(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     queryset = MarketOrder.objects.all()
-    serializer_class = MarketSerializer
-
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
-
-
-class updatemarketorder(generics.RetrieveUpdateDestroyAPIView):
-    
-    queryset = User.objects.all()
     serializer_class = MarketaSerializer
-    lookup_fields = 'username'
-    permission_classes = (AllowAny,)
+    
+    lookup_field='id'
 
+    def get(self, request, id=None):
+        if id:
+            return self.retrieve(request, id)
+        else:
+            return self.list(request)
+    
+    def post(self, request):
+        return self.create(request)
+
+    def perform_create(self, serializer):
+        serializer.save( Created_by=self.request.user)
+    
+    # def put(self, request, id=None):
+    #     return self.update(request, id)
+    
     # def perform_update(self, serializer):
-    #     serializer.save(user=self.request.user)
+    #     serializer.save(Created_by=self.request.user)
+
+    # def delete(self, request, id=None):
+    #     return self.destroy(request, id)
+
+
+    
 
 
 
-class UserDetail(APIView):
+# class UserDetail(APIView):
     """
     Retrieve, update or delete a user instance.
     """
