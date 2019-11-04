@@ -28,7 +28,8 @@ SECRET_KEY = '4**vk6vbo22c$$(y#=4++9ksi)uwpu0gkzu*hm!j$r^vmdmvc9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://localhost:3000/', 'localhost:3000', 'localhost',
+  'http://127.0.0.1:8000/', '127.0.0.1']
 
 
 # Application definition
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'transaction',
     'order',
+    'paypal_payments',
 ]
 
 MIDDLEWARE = [
@@ -72,10 +74,9 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ORIGIN_WHITELIST = (
-    'https://localhost:3000',
-)
+CORS_ORIGIN_ALLOW_ALL = True
 
+WSGI_APPLICATION = 'config.wsgi.application'
 
 ROOT_URLCONF = 'EMandi.urls'
 
@@ -162,3 +163,26 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'pioneer.deo@gmail.com'
 EMAIL_HOST_PASSWORD = 'tommyjerry'
 # AUTH_USER_MODEL = 'accounts.User'
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-disposition',
+    'content-type',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+
+CSRF_TRUSTED_ORIGINS = (
+    'http://localhost:3000/',
+    'localhost:3000',
+    'http://127.0.0.1:8000/',
+    '127.0.0.1'
+)
+
+PAYPAL_CLIENT_ID='Ack2nK_VJoxKGz8AITGB_tYAwNpePsQCjURtyaMBB1dJbaIbP-iiCEK6YCiHx3Jcprd2aErqYDYXuK36'
+PAYPAL_CLIENT_SECRET='EFVbaW270Bys1M_DmPo2fEoWpkpa9MqxA-U_0lgcYcdZ9gWsR7CerOr-nqulCRnLn4yOpZc0tfJJIs6e'
