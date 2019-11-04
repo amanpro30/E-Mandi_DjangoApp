@@ -70,11 +70,12 @@ class User2Serializer(serializers.ModelSerializer):
         return instance
 
 class RajaSerializer(serializers.ModelSerializer):
-    user=UserSerializer(write_only=True)
-    
+    #user=UserSerializer(write_only=True)
+    #user=serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
          model=UserProfile
-         fields=('user', 'company',  'city','street', 'aadharcard', 'pincode')
+         fields=('user', 'company',  'city','street', 'aadharcard', 'pincode', 'state',)
 
 
 
