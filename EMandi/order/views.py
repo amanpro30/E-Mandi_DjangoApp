@@ -31,14 +31,14 @@ class MarketOrder(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateM
     def perform_create(self, serializer):
         serializer.save( Created_by=self.request.user)
     
-    # def put(self, request, id=None):
-    #     return self.update(request, id)
+    def put(self, request, id=None):
+        return self.update(request, id)
     
-    # def perform_update(self, serializer):
-    #     serializer.save(Created_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(Created_by=self.request.user)
 
-    # def delete(self, request, id=None):
-    #     return self.destroy(request, id)
+    def delete(self, request, id=None):
+        return self.destroy(request, id)
 
 
     
