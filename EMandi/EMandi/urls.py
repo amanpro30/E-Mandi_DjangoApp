@@ -24,6 +24,8 @@ urlpatterns = [
    path('accounts/', include('accounts.urls')),
    path('order/', include('order.urls')),
 
+   path('transaction/', include('transaction.urls')),
+
    path('', views.index, name='index'),
    path('special/',views.special, name='special'),
    path('logout/', views.user_logout, name='logout'),

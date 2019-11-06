@@ -1,56 +1,37 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
-from accounts.models import Transaction,BankDetails
+from transaction.models import Transaction,BankDetails
 
 
-class BankdetailSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = BankDetails
-        fields = ( 'BankName', 'BranchName', 'Ifsc','AccountNumber')
+class BankSerializer(serializers.ModelSerializer):
+    #  details=BankdetailSerializer(write_only=True)
 
+    #  def create(self, validated_data):
+    #     bankd = validated_data.pop('details')
+    #     user= User.objects.get(**validated_data)
+    #     BankDetails.objects.create(BankHolder=user, **bankd)
+    #     return user
 
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
+    #  def update(self, instance, validated_data):
+    #     detail = validated_data.pop('details')
+    #     detail1=instance.username
+    #     instance.save()
+    #     detail1 = validated_data.get('title', detail1.title)
+    #     detail1.BankName = validated_data.get('BankName', detail1.BankName)
+    #     detail1.BranchName = validated_data.get('BranchName', detail1.BranchName)
+    #     detail1.Ifsc = validated_data.get('Ifsc', detail1.Ifsc)
+    #     detail1.AccountNumber = validated_data.get('AccountNumber', detail1.AccountNumber)
+    #     detail1.save()
+    #     return instance
+     class Meta:
         model = User
         fields = ('username',)
 
 
-class UserSerializerWithToken(serializers.ModelSerializer):
-
-    bankdetails= BankdetailSerializer(write_only=True)
-    
-    # password = serializers.CharField(write_only=True)
-
-    # def get_token(self, obj):
-    #     jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-    #     jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
-    #     payload = jwt_payload_handler(obj)
-    #     token = jwt_encode_handler(payload)
-    #     return token
-
-    # def create(self, validated_data):
-    #     password = validated_data.pop('password', None)
-    #     instance = self.Meta.model(**validated_data)
-    #     if password is not None:
-    #         instance.set_password(password)
-    #     instance.save()
-    #     return instance
-
-    def create(self, validated_data):
-        bank_data = validated_data.pop('bankdetails')
-        user_instance = User.objects.create(**validated_data)
-        UserProfile.objects.create(user=user_instance, **profile_data)
-        password = validated_data.pop('password', None)
-        if password is not None:
-            user_instance.set_password(password)
-        user_instance.save()
-        return user_instance
-    
-
-    class Meta:
-        model = User
-        fields = ('token', 'username', 'password', 'first_name', 'last_name', 'email','profile')
+class BankdetailSerializer(serializers.ModelSerializer):
+      user=serializers.ReadOnlyField(source='user.username')
+      class Meta:
+        model = BankDetails
+        fields = ('id','user','BankName', 'BranchName', 'Ifsc','AccountNumber',)
+        read_only_fields=[ 'user']
