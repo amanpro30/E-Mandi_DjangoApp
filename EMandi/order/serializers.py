@@ -4,34 +4,18 @@ from django.contrib.auth.models import User
 from order.models import *
 
 
-class MarketOrderSerializer(serializers.ModelSerializer):
-    # market=MarketaSerializer(write_only=True)
+class MarketSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = MarketOrder
+        fields = ('id', 'user', 'OrderName',  'OrderName','CropName', 'CropVariety', 'Quantity', 'ProductionMode', 'BasePrice', 'OrderStatus',)
+        read_only_fields=[ 'user']
+
+
+class UserSerializer(serializers.ModelSerializer):
+   # market=serializers.PrimaryKeyRelatedField(many=True, queryset=MarketOrder.objects.all())
+
     class Meta:
         model = User
-        fields = ('username',)
-
-
-class MarketSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    class Meta:
-        model = MarketOrder
-        fields = ('user', 'OrderName','CropName', 'CropVariety', 'Quantity', 'ProductionMode', 'BasePrice', 'OrderStatus',)
-
-
-class MarketaSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = MarketOrder
-        fields = ('CropName', 'CropVariety', 'Quantity', 'ProductionMode', 'BasePrice', 'OrderStatus',)
-
-    def update(self, instance, validated_data):
-        instance.CropName=validated_data.get('CropName', instance.CropName)
-        instance.CropVariety = validated_data.get('CropVariety', instance.CropVariety)
-        instance.Quantity = validated_data.get('Quantity', instance.Quantity)
-        instance.ProductionMode = validated_data.get('ProductionMode', instance.ProductionMode)
-        instance.BasePrice = validated_data.get('BasePrice', instance.BasePrice)
-        instance.OrderStatus = validated_data.get('OrderStatus', instance.OrderStatus)
-        instance.save()
-
-        return instance
+        fields = ('id', 'username', )

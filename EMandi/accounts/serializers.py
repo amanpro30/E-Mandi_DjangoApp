@@ -12,31 +12,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
     class Meta:
         model = UserProfile
-        fields = ( 'company', 'state', 'city','street', 'aadharcard', 'pincode', 'phone')
-    
-    # def create(self, validated_data):
-    #     # user_data= validated_data.pop('user')
-    #     # username=user_data.pop('username')
-    #     # user=User.objects.create(username=username)[0]
-    #     profile_data= UserProfile.objects.create(**validated_data)
-    #     return profile_data
+        fields = ( 'id', 'user','company', 'state', 'city','street', 'aadharcard', 'pincode', 'phone')
+        read_only_fields=[ 'user']
 
-    # def update(self, instance, validated_data):
-    #     # user_data= validated_data.pop('user')
-    #     # username=user_data.pop('username')
-    #     # user=get_user_model().objects.get_or_create(username=username)[0]
-    #     # instance.user=user
-    #     instance.company= validated_data.get('company', instance.company)
-    #     instance.state= validated_data.get('state', instance.state)
-    #     instance.city= validated_data.get('city', instance.city)
-    #     instance.street= validated_data.get('street', instance.street)
-    #     instance.aadharcard= validated_data.get('aadharcard', instance.aadharcard)
-    #     instance.pincode= validated_data.get('pincode', instance.pincode)
-    #     instance.phone= validated_data.get('phone', instance.phone)
-    #     instance.save()
-    #     return instance
 
 class User2Serializer(serializers.ModelSerializer):
     
@@ -69,13 +50,6 @@ class User2Serializer(serializers.ModelSerializer):
         profile1.save()
         return instance
 
-class RajaSerializer(serializers.ModelSerializer):
-    #user=UserSerializer(write_only=True)
-    #user=serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    class Meta:
-         model=UserProfile
-         fields=('user', 'company',  'city','street', 'aadharcard', 'pincode', 'state',)
 
 
 
