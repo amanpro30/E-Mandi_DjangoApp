@@ -14,7 +14,7 @@ from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer,  User2Serializer,RajaSerializer
+from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer,  User2Serializer
 from rest_framework.permissions import IsAdminUser, AllowAny
 
 def index(request):
@@ -161,18 +161,13 @@ class profile_change2(generics.ListCreateAPIView):
     queryset=User.objects.all()
     serializer_class=User2Serializer
     
-    # def put(self, request, *args, **kwargs):
-    #     serializer = ProfileSerializer(data=request.data)
-        
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class raja2(generics.RetrieveUpdateDestroyAPIView):
+class profile_get(generics.RetrieveAPIView):
     
-    serializer_class=RajaSerializer
+    serializer_class=ProfileSerializer
     queryset=UserProfile.objects.all()
+    lookup_field='aadharcard'
+    
     
     # def perform_update(self, serializer):
     #     serializer.save(user=self.request.user)

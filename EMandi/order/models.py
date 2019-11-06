@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class MarketOrder(models.Model):
-    Created_by=models.ForeignKey(User,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
     OrderName=models.CharField(max_length=100, unique=True)
     CropName=models.CharField(max_length=50)
     CropVariety=models.CharField(max_length=50)
