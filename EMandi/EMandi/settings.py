@@ -76,8 +76,6 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-WSGI_APPLICATION = 'config.wsgi.application'
-
 ROOT_URLCONF = 'EMandi.urls'
 
 TEMPLATES = [
