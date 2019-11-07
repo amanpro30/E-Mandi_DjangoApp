@@ -9,7 +9,7 @@ class MarketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MarketOrder
-        fields = ('id', 'user', 'OrderName',  'OrderName','CropName', 'CropVariety', 'Quantity', 'ProductionMode', 'BasePrice', 'OrderStatus',)
+        fields = ('id', 'user','CropName', 'CropVariety', 'Quantity', 'ProductionMode', 'BasePrice', 'ClosingDate')
         read_only_fields=[ 'user']
 
 

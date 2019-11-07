@@ -7,7 +7,8 @@ app_name = "order"
 urlpatterns = [
     
     path('marketorder/', views.UserList.as_view()),
-    path('marketorder/<OrderName>/', views.UserDetail.as_view()),
+    path('marketorder/<id>/', views.UserDetail.as_view()),
+    path('myorder/',views.OrderDetail.as_view()),
     #path('update-market-order/<username>', updatemarketorder.as_view()),
     #path('update-market/<int:pk>', UserDetail.as_view()),
     # path('order/', MarketaListView.as_view()),

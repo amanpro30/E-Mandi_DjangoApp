@@ -3,12 +3,11 @@ from django.contrib.auth.models import User
 
 class MarketOrder(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    OrderName=models.CharField(max_length=100, unique=True)
     CropName=models.CharField(max_length=50)
     CropVariety=models.CharField(max_length=50)
     Quantity=models.PositiveIntegerField(default=None)
     OrderDate=models.DateTimeField(auto_now=False,auto_now_add=True)
-    ClosingDate=models.DateField(auto_now=False,auto_now_add=True)
+    ClosingDate=models.DateField(auto_now=False)
     ProductionMode=models.CharField(max_length=50)
     BasePrice=models.FloatField(default=None)
     OrderStatus_choices =(
@@ -39,7 +38,3 @@ class ExecutedOrder(models.Model):
 
     def __str__(self):
        return f'{self.orderid.CropName}{self.buyerid.username} ExecuteOrder'
-
-
-
-
