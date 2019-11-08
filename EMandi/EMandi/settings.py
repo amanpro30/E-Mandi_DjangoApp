@@ -28,7 +28,8 @@ SECRET_KEY = '4**vk6vbo22c$$(y#=4++9ksi)uwpu0gkzu*hm!j$r^vmdmvc9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://localhost:3000/', 'localhost:3000', 'localhost',
+  'http://127.0.0.1:8000/', '127.0.0.1']
 
 
 # Application definition
@@ -47,11 +48,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'transaction',
     'order',
+    'paypal_payments',
+    'crop',
 ]
-
-ALLOWED_HOSTS = ['http://localhost:3000/', 'localhost:3000', 'localhost',
-  'http://127.0.0.1:8000/', '127.0.0.1']
-
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -76,11 +75,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-# CORS_ORIGIN_WHITELIST = (
-#     'https://localhost:3000',
-# )
-CORS_ORIGIN_ALLOW_ALL= True
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'EMandi.urls'
 
@@ -132,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'EMandi.utils.my_jwt_response_handler',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'EMandi.utils.my_jwt_response_handler'
 }
 
 # Internationalization
@@ -168,7 +163,6 @@ EMAIL_HOST_USER = 'pioneer.deo@gmail.com'
 EMAIL_HOST_PASSWORD = 'tommyjerry'
 # AUTH_USER_MODEL = 'accounts.User'
 
-
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -189,10 +183,5 @@ CSRF_TRUSTED_ORIGINS = (
     '127.0.0.1'
 )
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000/',
-    'localhost:3000',
-    '127.0.0.1'
-)
-PAYPAL_CLIENT_ID='ATNUMSsvOTPyIimF8XHVEwaBL_daevlVgolz0N65LCJ-a2JLYJYJIkLnL4FJzvD4f1sdo7KUC4YdORgB'
-PAYPAL_CLIENT_SECRET='ELrikiW_rOFFJ24DbXqIuAoBmhGc7qMH1Hva4R189jR7J_lB4topbllUtxvsE8FHLRNWyiFDvdhCwjZQ'
+PAYPAL_CLIENT_ID='Ack2nK_VJoxKGz8AITGB_tYAwNpePsQCjURtyaMBB1dJbaIbP-iiCEK6YCiHx3Jcprd2aErqYDYXuK36'
+PAYPAL_CLIENT_SECRET='EFVbaW270Bys1M_DmPo2fEoWpkpa9MqxA-U_0lgcYcdZ9gWsR7CerOr-nqulCRnLn4yOpZc0tfJJIs6e'

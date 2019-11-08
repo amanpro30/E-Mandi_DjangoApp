@@ -2,19 +2,55 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 from accounts.models import UserProfile
-
-class ProfileSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = UserProfile
-        fields = ( 'company', 'state', 'city','street', 'aadharcard', 'pincode', 'phone')
-
+from django.contrib.auth import get_user_model
 
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
         fields = ('username',)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    class Meta:
+        model = UserProfile
+        fields = ( 'id', 'user','company', 'state', 'city','street', 'aadharcard', 'pincode', 'phone')
+        read_only_fields=[ 'user']
+
+
+class User2Serializer(serializers.ModelSerializer):
+    
+    profile=ProfileSerializer(write_only=True)
+    
+    
+    class Meta:
+        model = User
+        fields = ('username', 'profile')
+
+    def create(self, validated_data):
+        # profile_data = validated_data.pop('profile')
+        # user_instance = User.objects.create(**validated_data)
+        # UserProfile.objects.create(user=user_instance, **profile_data)
+        # return user_instance    
+        raise ValidationError("Wrong method being called")
+
+    def update(self, instance, validated_data):
+
+        profiles_data= validated_data.pop('profile')
+        profile1=instance.userprofile
+        instance.save()
+        profile1.company= profiles_data.get('company', profile1.company)
+        profile1.state= profiles_data.get('state', profile1.state)
+        profile1.city= profiles_data.get('city', profile1.city)
+        profile1.street= profiles_data.get('street', profile1.street)
+        profile1.aadharcard= profiles_data.get('aadharcard', profile1.aadharcard)
+        profile1.pincode= profiles_data.get('pincode', profile1.pincode)
+        profile1.phone= profiles_data.get('phone', profile1.phone)
+        profile1.save()
+        return instance
+
+
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -33,13 +69,6 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         token = jwt_encode_handler(payload)
         return token
 
-    # def create(self, validated_data):
-    #     password = validated_data.pop('password', None)
-    #     instance = self.Meta.model(**validated_data)
-    #     if password is not None:
-    #         instance.set_password(password)
-    #     instance.save()
-    #     return instance
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
@@ -49,7 +78,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         if password is not None:
             user_instance.set_password(password)
         user_instance.save()
-        return user_instance
+        return (user_instance)
     
 
     class Meta:
