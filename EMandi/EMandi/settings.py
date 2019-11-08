@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'transaction',
     'order',
     'paypal_payments',
-    'crop',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +75,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-
+ALLOWED_HOSTS = ['*']
 ROOT_URLCONF = 'EMandi.urls'
 
 TEMPLATES = [

@@ -6,7 +6,7 @@ class MarketOrder(models.Model):
     CropName=models.CharField(max_length=50)
     CropVariety=models.CharField(max_length=50)
     Quantity=models.PositiveIntegerField(default=None)
-    OrderDate=models.DateTimeField(auto_now=False,auto_now_add=True)
+    OrderDate=models.DateTimeField(auto_now_add=True)
     ClosingDate=models.DateField(auto_now=False)
     ProductionMode=models.CharField(max_length=50)
     BasePrice=models.FloatField(default=None)
@@ -26,7 +26,7 @@ class Bid(models.Model):
     price=models.FloatField(default=None)
 
     def __str__(self):
-        return f'{self.orderid.CropName}{self.userid.username} Bid'
+        return f'{self.order.CropName}{self.user.username} Bid'
 
 
 class ExecutedOrder(models.Model):
