@@ -49,6 +49,10 @@ INSTALLED_APPS = [
     'order',
 ]
 
+ALLOWED_HOSTS = ['http://localhost:3000/', 'localhost:3000', 'localhost',
+  'http://127.0.0.1:8000/', '127.0.0.1']
+
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -128,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'EMandi.utils.my_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'EMandi.utils.my_jwt_response_handler',
 }
 
 # Internationalization
@@ -163,3 +167,32 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'pioneer.deo@gmail.com'
 EMAIL_HOST_PASSWORD = 'tommyjerry'
 # AUTH_USER_MODEL = 'accounts.User'
+
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-disposition',
+    'content-type',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+
+CSRF_TRUSTED_ORIGINS = (
+    'http://localhost:3000/',
+    'localhost:3000',
+    'http://127.0.0.1:8000/',
+    '127.0.0.1'
+)
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000/',
+    'localhost:3000',
+    '127.0.0.1'
+)
+PAYPAL_CLIENT_ID='ATNUMSsvOTPyIimF8XHVEwaBL_daevlVgolz0N65LCJ-a2JLYJYJIkLnL4FJzvD4f1sdo7KUC4YdORgB'
+PAYPAL_CLIENT_SECRET='ELrikiW_rOFFJ24DbXqIuAoBmhGc7qMH1Hva4R189jR7J_lB4topbllUtxvsE8FHLRNWyiFDvdhCwjZQ'

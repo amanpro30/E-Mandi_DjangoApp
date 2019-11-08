@@ -3,6 +3,7 @@ from django.urls import path
 from django.conf.urls import url,include 
 from accounts import views
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from accounts import views as user_views
@@ -27,7 +28,6 @@ urlpatterns = [
    path('logout/', views.user_logout, name='logout'),
    path('token-auth/', obtain_jwt_token),
    path('accounts/login/',auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'), #login url
-
    path('accounts/password-reset/', auth_views.PasswordResetView.as_view(
             template_name='accounts/password_reset.html'),
             name='password_reset'),
