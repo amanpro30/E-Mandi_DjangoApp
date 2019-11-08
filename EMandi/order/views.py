@@ -10,10 +10,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from order.models import MarketOrder
+from django.db.models import Q
 
 from django.contrib.auth.models import User
 
-class UserList(generics.ListCreateAPIView):
+class OrderList(generics.ListCreateAPIView):
     queryset = MarketOrder.objects.all()
     serializer_class = MarketSerializer
 
@@ -22,7 +23,7 @@ class UserList(generics.ListCreateAPIView):
 
 
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MarketOrder.objects.all()
     serializer_class = MarketSerializer
 
@@ -31,12 +32,20 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     
     lookup_field='id'
 
+class BidList(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Bid.objects.all()
+    serializer_class = BidSerializer
+    lookup_field='id'
 
-class OrderDetail(generics.RetrieveAPIView):
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+    
+    lookup_field='id'
+
+
+class OrderDetailSelf(generics.RetrieveAPIView):
     queryset = MarketOrder.objects.all()
     serializer_class = MarketSerializer
-
-    # lookup_field = "user"
 
     def get_queryset(self):
         username = self.request.user
@@ -44,10 +53,7 @@ class OrderDetail(generics.RetrieveAPIView):
         return MarketOrder.objects.filter(user=user_instance)
  
     def list(self, request):
-        print('uuuuuu')
         queryset = self.get_queryset()
-        print('use')
-        print(queryset)
         serializer = MarketSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -56,3 +62,25 @@ class OrderDetail(generics.RetrieveAPIView):
         return Response(orders)
     
 
+class OrderDetailOther(generics.RetrieveAPIView):
+    queryset = MarketOrder.objects.all()
+    serializer_class = MarketSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return MarketOrder.objects.filter(~Q(user=user_instance))
+ 
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = MarketSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def get(self, request, format=None):
+        orders = [{'CropName':order.CropName,'CropVariety':order.CropVariety,'Quantity':order.Quantity,'ProductionMode':order.ProductionMode,'BasePrice':order.BasePrice,} for order in (self.get_queryset())]
+        return Response(orders)
+
+
+
+    
+    

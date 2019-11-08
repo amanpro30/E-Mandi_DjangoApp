@@ -21,8 +21,8 @@ class MarketOrder(models.Model):
         return f'{self.user.username}{self.CropName}MarketOrder'
 
 class Bid(models.Model):
-    orderid=models.ForeignKey(MarketOrder,on_delete=models.CASCADE,null=True)
-    userid=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    order=models.ForeignKey(MarketOrder,on_delete=models.CASCADE,null=True)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     price=models.FloatField(default=None)
 
     def __str__(self):

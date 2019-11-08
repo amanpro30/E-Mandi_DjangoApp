@@ -6,13 +6,11 @@ app_name = "order"
 
 urlpatterns = [
     
-    path('marketorder/', views.UserList.as_view()),
-    path('marketorder/<id>/', views.UserDetail.as_view()),
-    path('myorder/',views.OrderDetail.as_view()),
-    #path('update-market-order/<username>', updatemarketorder.as_view()),
-    #path('update-market/<int:pk>', UserDetail.as_view()),
-    # path('order/', MarketaListView.as_view()),
-    # path('order1/<id>/', MarketaListView.as_view()),
-    
+    path('marketorder/', views.OrderList.as_view()),
+    path('marketorder/<id>/', views.OrderDetail.as_view()),
+    path('myorder/',views.OrderDetailSelf.as_view()),
+    path('otherorder/',views.OrderDetailOther.as_view()),
+    path('getbid/',views.BidList.as_view()),
+    path('getbid/<id>/',views.BidList.as_view()),
+
 ]
-# from rest_framework.urlpatterns import format_suffix_patterns
