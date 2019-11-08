@@ -17,11 +17,9 @@ from django.contrib.auth.models import User
 class OrderList(generics.ListCreateAPIView):
     queryset = MarketOrder.objects.all()
     serializer_class = MarketSerializer
-
+    
     def perform_create(self, serializer):
         serializer.save(user=self.request.user,OrderStatus='1')
-
-
 
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MarketOrder.objects.all()
@@ -42,8 +40,7 @@ class BidList(generics.RetrieveUpdateDestroyAPIView):
     
     lookup_field='id'
 
-
-class OrderDetailSelf(generics.RetrieveAPIView):
+class OrderDetailSelf(generics.ListCreateAPIView):
     queryset = MarketOrder.objects.all()
     serializer_class = MarketSerializer
 
@@ -51,18 +48,8 @@ class OrderDetailSelf(generics.RetrieveAPIView):
         username = self.request.user
         user_instance = User.objects.get(username=username)
         return MarketOrder.objects.filter(user=user_instance)
- 
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = MarketSerializer(queryset, many=True)
-        return Response(serializer.data)
 
-    def get(self, request, format=None):
-        orders = [{'CropName':order.CropName,'CropVariety':order.CropVariety,'Quantity':order.Quantity,'ProductionMode':order.ProductionMode,'BasePrice':order.BasePrice,} for order in (self.get_queryset())]
-        return Response(orders)
-    
-
-class OrderDetailOther(generics.RetrieveAPIView):
+class OrderDetailOther(generics.ListCreateAPIView):
     queryset = MarketOrder.objects.all()
     serializer_class = MarketSerializer
 
@@ -71,16 +58,3 @@ class OrderDetailOther(generics.RetrieveAPIView):
         user_instance = User.objects.get(username=username)
         return MarketOrder.objects.filter(~Q(user=user_instance))
  
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = MarketSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def get(self, request, format=None):
-        orders = [{'CropName':order.CropName,'CropVariety':order.CropVariety,'Quantity':order.Quantity,'ProductionMode':order.ProductionMode,'BasePrice':order.BasePrice,} for order in (self.get_queryset())]
-        return Response(orders)
-
-
-
-    
-    
