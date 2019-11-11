@@ -38,3 +38,5 @@ class ExecutedOrder(models.Model):
 
     def __str__(self):
        return f'{self.orderid.CropName}{self.buyerid.username} ExecuteOrder'
+
+

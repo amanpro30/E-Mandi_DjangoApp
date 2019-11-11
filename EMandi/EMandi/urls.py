@@ -51,6 +51,7 @@ urlpatterns = [
          ), name='password_reset_complete'),
     
    path('api/', include('paypal_payments.urls')),
+   path('crop/', include('crop.urls')),
 
 ]
 if settings.DEBUG: 
