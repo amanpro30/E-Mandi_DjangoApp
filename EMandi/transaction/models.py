@@ -2,13 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class BankDetails(models.Model):
-    BankHolder=models.OneToOneField(User,on_delete=models.CASCADE)
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
     BankName=models.CharField(max_length=50)
     BranchName=models.CharField(max_length=60)
     Ifsc=models.CharField(max_length=50)
     AccountNumber=models.PositiveIntegerField(default=0)
     def __str__(self):
-        return f'{self.BankHolder.username} BankDetails'
+        return f'{self.user.username} BankDetails'
 
 class Transaction(models.Model):
     Customer=models.ForeignKey(User,on_delete=models.CASCADE)
