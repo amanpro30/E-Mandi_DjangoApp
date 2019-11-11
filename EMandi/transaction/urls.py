@@ -14,7 +14,7 @@ app_name = "transaction"
 
 urlpatterns = [
    path('bank/',BankList.as_view()),
-   path('bank/<username>',Update.as_view()),
+   path('bank/<username>/',Update.as_view()),
 
 ]   
 

@@ -11,7 +11,7 @@ class BankSerializer(serializers.ModelSerializer):
 
 
 class BankdetailSerializer(serializers.ModelSerializer):
-      user=serializers.ReadOnlyField(source='user.username')
+      user = serializers.ReadOnlyField(source='user.username')
       class Meta:
         model = BankDetails
         fields = ('id','user','BankName', 'BranchName', 'Ifsc','AccountNumber',)
