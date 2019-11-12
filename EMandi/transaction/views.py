@@ -26,10 +26,7 @@ class BankList(generics.ListCreateAPIView):
 
 
 
-<<<<<<< HEAD
  
-=======
->>>>>>> 1096e422a756c2831fbd5afcd08f17129e310aab
 class Update(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = BankUpdateSerializer
