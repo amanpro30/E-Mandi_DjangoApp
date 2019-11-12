@@ -14,7 +14,7 @@ from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer,  User2Serializer
+from .serializers import *
 from rest_framework.permissions import IsAdminUser, AllowAny
 
 
@@ -164,16 +164,51 @@ class profile_change2(generics.ListCreateAPIView):
     serializer_class=User2Serializer
     
     
-class profile_get(generics.RetrieveAPIView):
+# class profile_get(generics.ListCreateAPIView):
+#     queryset=UserProfile.objects.all()
+#     serializer_class=ProfileSerializer
     
-    serializer_class=ProfileSerializer
-    queryset=UserProfile.objects.all()
-    lookup_field='aadharcard'
+    
+#     def get_queryset(self):
+#         username = self.request.user
+#         user_instance = User.objects.get(username=username)
+#         return UserProfile.objects.filter(user=user_instance)
+        
+class profile_get(generics.ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return UserProfile.objects.filter(user=user_instance)
+    
+    # def list(self, request):
+    #     queryset = self.get_queryset()
+    #     serializer = ProfileSerializer(queryset, many=True)
+    #     return Response(serializer.data)
+
+    # def create(self, request, *args, **kwargs):
+    #     print('hello')
+    #     return super().create(request, *args, **kwargs)
+    # lookup_field='user'
     
     
     # def perform_update(self, serializer):
     #     serializer.save(user=self.request.user)
 
+class UsersProfile(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserBasicSerializer
+
     
-    
-    
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.filter(username=username)
+        return user_instance
+
+class UsersProfileUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserBasicSerializer
+
+    lookup_field="username"

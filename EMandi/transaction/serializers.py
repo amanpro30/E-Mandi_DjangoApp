@@ -1,37 +1,62 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
-from transaction.models import Transaction,BankDetails
+from transaction.models import Transaction,BankDetails,Balance
 
 
 class BankSerializer(serializers.ModelSerializer):
-    #  details=BankdetailSerializer(write_only=True)
-
-    #  def create(self, validated_data):
-    #     bankd = validated_data.pop('details')
-    #     user= User.objects.get(**validated_data)
-    #     BankDetails.objects.create(BankHolder=user, **bankd)
-    #     return user
-
-    #  def update(self, instance, validated_data):
-    #     detail = validated_data.pop('details')
-    #     detail1=instance.username
-    #     instance.save()
-    #     detail1 = validated_data.get('title', detail1.title)
-    #     detail1.BankName = validated_data.get('BankName', detail1.BankName)
-    #     detail1.BranchName = validated_data.get('BranchName', detail1.BranchName)
-    #     detail1.Ifsc = validated_data.get('Ifsc', detail1.Ifsc)
-    #     detail1.AccountNumber = validated_data.get('AccountNumber', detail1.AccountNumber)
-    #     detail1.save()
-    #     return instance
      class Meta:
         model = User
         fields = ('username',)
 
 
 class BankdetailSerializer(serializers.ModelSerializer):
-      user=serializers.ReadOnlyField(source='user.username')
+      user = serializers.ReadOnlyField(source='user.username')
       class Meta:
         model = BankDetails
         fields = ('id','user','BankName', 'BranchName', 'Ifsc','AccountNumber',)
         read_only_fields=[ 'user']
+
+class BankUpdateSerializer(serializers.ModelSerializer):
+        bank = BankdetailSerializer(write_only=True)
+        def update(self, instance, validated_data):
+                print('instance')
+                print(instance.bankdetails)
+                bank_data= validated_data.pop('bank')
+                bank1=instance.bankdetails
+                instance.save()
+                bank1.BankName= bank_data.get('BankName', bank1.BankName)
+                bank1.BranchName= bank_data.get('BranchName', bank1.BranchName)
+                bank1.Ifsc= bank_data.get('Ifsc', bank1.Ifsc)
+                bank1.AccountNumber= bank_data.get('AccountNumber', bank1.AccountNumber)
+                bank1.save()
+                return instance
+
+        class Meta:
+                model = User
+                fields = ('username','bank')
+                
+
+class BalanceSerializer(serializers.ModelSerializer):
+        user = serializers.ReadOnlyField(source='user.username')
+        class Meta:
+                model = Balance
+                fields = ('balance','user')
+                read_only_fields=[ 'user']
+
+class BalanceUpdateSerializer(serializers.ModelSerializer):
+    balance=BalanceSerializer(write_only=True)
+    def update(self, instance, validated_data):
+        balance_data= validated_data.pop('balance')
+        balance1=instance.balance
+        instance.save()
+        balance1.balance= balance_data.get('balance', balance1.balance)
+        print(balance1)
+        balance1.save()
+        return instance
+
+    class Meta:
+        model = User
+        fields = ('username', 'balance')
+
+                

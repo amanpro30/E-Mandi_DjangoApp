@@ -11,12 +11,25 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username',)
 
 
+class UserBasicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [ 'username', 'email','first_name','last_name']
+        read_only_fields=[ 'username','first_name','last_name']
+
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     class Meta:
         model = UserProfile
         fields = ( 'id', 'user','company', 'state', 'city','street', 'aadharcard', 'pincode', 'phone')
         read_only_fields=[ 'user']
+
+class ProfilegetSerializer(serializers.ModelSerializer):
+    # user = serializers.ReadOnlyField(source='user.username')
+    class Meta:
+        model = UserProfile
+        fields = ( 'company', 'state', 'city','street', 'aadharcard', 'pincode', 'phone')
+        # read_only_fields=[ 'user']
 
 
 class User2Serializer(serializers.ModelSerializer):

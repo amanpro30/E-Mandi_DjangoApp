@@ -14,8 +14,22 @@ class MarketSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-   # market=serializers.PrimaryKeyRelatedField(many=True, queryset=MarketOrder.objects.all())
-
+  
     class Meta:
         model = User
-        fields = ('id', 'username', )
+        fields = ('id', 'username','first_name', 'last_name', 'email' )
+
+class BidSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Bid
+        fields = ('id','order', 'price',)
+
+
+class BidUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Bid
+        fields = ('id', 'price',)
+
+
