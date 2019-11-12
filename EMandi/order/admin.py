@@ -6,3 +6,6 @@ from .models import *
 admin.site.register(MarketOrder)
 admin.site.register(Bid)
 admin.site.register(ExecutedOrder)
+admin.site.register(FuturesContract)
+admin.site.register(FutureBid)
+admin.site.register(FutureDeal)
