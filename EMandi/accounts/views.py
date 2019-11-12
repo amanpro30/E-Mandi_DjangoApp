@@ -17,6 +17,8 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer, UserSerializerWithToken, ProfileSerializer,  User2Serializer
 from rest_framework.permissions import IsAdminUser, AllowAny
 
+
+
 def index(request):
     return render(request,'accounts/index.html')
 
