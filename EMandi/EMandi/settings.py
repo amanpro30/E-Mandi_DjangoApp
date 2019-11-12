@@ -48,7 +48,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'transaction',
     'order',
+<<<<<<< HEAD
     'paypal_payments',
+=======
+
+>>>>>>> 1096e422a756c2831fbd5afcd08f17129e310aab
     'crop',
 ]
 
@@ -140,7 +144,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'EMandi.utils.my_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'EMandi.utils.my_jwt_response_handler',
+    'JWT_VERIFY_EXPIRATION': False,
 }
 
 # Internationalization

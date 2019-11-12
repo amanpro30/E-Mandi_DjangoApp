@@ -14,6 +14,8 @@ class PriceData(models.Model):
     low=models.FloatField(default=None)
     high=models.FloatField(default=None)
     volume=models.IntegerField(default=0)
+    closing=models.FloatField(default=None)
+    opening=models.FloatField(default=None)
 
     def __str__(self):
         return f'{self.crop.cropName}{self.low}'
