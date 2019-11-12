@@ -18,6 +18,8 @@ from .serializers import *
 from rest_framework.permissions import IsAdminUser, AllowAny
 from transaction.models import *
 
+
+
 def index(request):
     return render(request,'accounts/index.html')
 
