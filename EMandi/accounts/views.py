@@ -16,6 +16,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
 from rest_framework.permissions import IsAdminUser, AllowAny
+from transaction.models import *
 
 def index(request):
     return render(request,'accounts/index.html')
@@ -138,8 +139,10 @@ class UserList(APIView):
 class Signup(generics.ListCreateAPIView):
     serializer_class = UserSerializerWithToken
     permission_classes = (AllowAny,)
+    
 
     def get_queryset(self):
+        print('banayenge')
         return User.objects.all()
 
     def list(self, request):
@@ -147,9 +150,11 @@ class Signup(generics.ListCreateAPIView):
         serializer = UserSerializerWithToken(queryset, many=True)
         return Response(serializer.data)
 
+
     def create(self, request, *args, **kwargs):
-        print('hello')
-        return super().create(request, *args, **kwargs)
+        print('mandir')
+        k = super().create(request, *args, **kwargs)
+        return k
 
 class profile_change(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = User2Serializer
