@@ -3,8 +3,8 @@ from django.db import models
 # Create your models here.
 class Crop(models.Model):
     cropName=models.CharField(max_length=50)
-    varietyName=models.CharField(max_length=50)
-
+    varietyName=models.CharField(max_length=50,null=True)
+    
     def __str__(self):
         return f'{self.cropName}{self.varietyName}'
 
@@ -17,7 +17,3 @@ class PriceData(models.Model):
 
     def __str__(self):
         return f'{self.crop.cropName}{self.low}'
-
-
-
-
