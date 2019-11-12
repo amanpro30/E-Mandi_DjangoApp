@@ -21,3 +21,10 @@ class Transaction(models.Model):
     TransType = models.CharField(max_length=10, choices=TransType_choices,)
     def __str__(self):
         return f'{self.Customer.username} Transaction'
+
+class Balance(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    balance = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.user.username} Balance'
