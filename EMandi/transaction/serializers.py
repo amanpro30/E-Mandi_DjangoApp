@@ -51,7 +51,6 @@ class BalanceUpdateSerializer(serializers.ModelSerializer):
         balance1=instance.balance
         instance.save()
         balance1.balance= balance_data.get('balance', balance1.balance)
-        print(balance1)
         balance1.save()
         return instance
 
