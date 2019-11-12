@@ -26,14 +26,7 @@ class BankList(generics.ListCreateAPIView):
 
 
 
-# class Update(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = BankDetails.objects.all()
-#     serializer_class = BankdetailSerializer
-#     def perform_update(self,serializer):
-#         serializer.save(user=self.request.user)
-
-#     lookup_field='id'
-
+ 
 class Update(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = BankUpdateSerializer
