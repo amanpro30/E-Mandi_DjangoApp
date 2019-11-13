@@ -40,3 +40,11 @@ class futurecontractSerializer(serializers.ModelSerializer):
     class Meta:
         model = FuturesContract
         fields = ('id', 'user', 'Crop', 'Quantity', 'OrderDate', 'DeliveryDate', 'ProductionMode', 'ContractPrice', 'advance', )
+
+
+class FutureBidSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = FutureBid
+
+        fields = ('id' , 'price', 'advance')

@@ -56,7 +56,7 @@ class FuturesContract(models.Model):
 
 
 class FutureBid(models.Model):
-    order=models.ForeignKey(MarketOrder,on_delete=models.CASCADE,null=True)
+    order=models.ForeignKey(FuturesContract,on_delete=models.CASCADE,null=True)
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     price=models.FloatField(default=None)
     advance=models.FloatField(default=None)
