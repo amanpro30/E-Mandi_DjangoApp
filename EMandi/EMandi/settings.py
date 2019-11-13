@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'transaction',
     'order',
+    'paypal_payments',
     'crop',
 ]
 
