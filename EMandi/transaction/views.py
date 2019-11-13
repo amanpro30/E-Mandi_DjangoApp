@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from .serializers import BankdetailSerializer, BankSerializer, BankUpdateSerializer, BalanceSerializer, BalanceUpdateSerializer
+from .serializers import *
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework import permissions
 from rest_framework import viewsets
@@ -26,14 +26,6 @@ class BankList(generics.ListCreateAPIView):
 
 
 
-# class Update(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = BankDetails.objects.all()
-#     serializer_class = BankdetailSerializer
-#     def perform_update(self,serializer):
-#         serializer.save(user=self.request.user)
-
-#     lookup_field='id'
-
 class Update(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = BankUpdateSerializer
@@ -49,23 +41,14 @@ class BalanceView(generics.ListAPIView):
         user_instance = User.objects.get(username=username)
         return Balance.objects.filter(user=user_instance)
 
-    # def perform_update(self, serializer):
-    #     print(self.request.user)
-    #     user_instance= User.objects.get(username=self.request.user)
-    #     print(user_instance)
-    #     serializer.save(user=user_instance)
-    # lookup_field='user'
 
 class BalanceUpdate(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Balance.objects.all()
+    queryset = User.objects.all()
     serializer_class = BalanceUpdateSerializer
-    # print('hi')
 
-    # def get_queryset(self):
-    #     username = self.request.user
-    #     user_instance = User.objects.get(username=username)
-    #     return Balance.objects.filter(user=user_instance)
+    def perform_update(self,serializer):
+        serializer.save(user=self.request.user)
 
 
+    lookup_field="username"
 
-    lookup_field="user"

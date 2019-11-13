@@ -30,7 +30,31 @@ class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     
     lookup_field='id'
 
-class BidList(generics.RetrieveUpdateDestroyAPIView):
+class BidListByOrder(generics.ListCreateAPIView):
+    queryset = Bid.objects.all()
+    serializer_class = BidSerializer
+    def get_queryset(self):
+        order_id = self.kwargs['order']
+        order_instance = MarketOrder.objects.get(id=order_id)
+        return Bid.objects.filter(order=order_instance)
+
+    def perform_create(self,serializer):
+        order_id = self.kwargs['order']
+        order_instance = MarketOrder.objects.get(id=order_id)
+        serializer.save(user=self.request.user, order=order_instance)
+
+
+class BidListUser(generics.ListAPIView):
+    queryset = Bid.objects.all()
+    serializer_class = BidSerializer
+    def get_queryset(self):
+        order_id = self.kwargs['order']
+        user=self.request.user
+        user_instance = User.objects.get(username=user)
+        order_instance = MarketOrder.objects.get(id=order_id)
+        return Bid.objects.filter(user=user_instance, order=order_instance)  
+
+class BidListUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = Bid.objects.all()
     serializer_class = BidSerializer
     lookup_field='id'

@@ -25,8 +25,8 @@ class Bid(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     price=models.FloatField(default=None)
 
-    def __str__(self):
-        return f'{self.order.CropName}{self.user.username} Bid'
+    # def __str__(self):
+    #     return f'{self.order.CropName}{self.user.username} Bid'
 
 
 class ExecutedOrder(models.Model):
