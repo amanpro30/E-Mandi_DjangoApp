@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from transaction.models import BankDetails
+from transaction.models import BankDetails, Balance
 from django.contrib.auth.models import User
 from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from .serializers import BankdetailSerializer, BankSerializer, BankUpdateSerializer
+from .serializers import BankdetailSerializer, BankSerializer, BankUpdateSerializer, BalanceSerializer, BalanceUpdateSerializer
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework import permissions
 from rest_framework import viewsets
@@ -39,3 +39,33 @@ class Update(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BankUpdateSerializer
     
     lookup_field='username'
+
+class BalanceView(generics.ListAPIView):
+    queryset = Balance.objects.all()
+    serializer_class = BalanceSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return Balance.objects.filter(user=user_instance)
+
+    # def perform_update(self, serializer):
+    #     print(self.request.user)
+    #     user_instance= User.objects.get(username=self.request.user)
+    #     print(user_instance)
+    #     serializer.save(user=user_instance)
+    # lookup_field='user'
+
+class BalanceUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Balance.objects.all()
+    serializer_class = BalanceUpdateSerializer
+    # print('hi')
+
+    # def get_queryset(self):
+    #     username = self.request.user
+    #     user_instance = User.objects.get(username=username)
+    #     return Balance.objects.filter(user=user_instance)
+
+
+
+    lookup_field="user"

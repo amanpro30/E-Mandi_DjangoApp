@@ -28,6 +28,8 @@ class Migration(migrations.Migration):
                 ('low', models.FloatField(default=None)),
                 ('high', models.FloatField(default=None)),
                 ('volume', models.IntegerField(default=0)),
+                ('closing', models.FloatField(default=None)),
+                ('opening', models.FloatField(default=None)),
                 ('crop', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='crop.Crop')),
             ],
         ),
