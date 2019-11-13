@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
-from order.models import *
-
+from .models import *
 
 class MarketSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
@@ -33,3 +32,11 @@ class BidUpdateSerializer(serializers.ModelSerializer):
         fields = ('id', 'price',)
 
 
+class futurecontractSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.username')
+    Crop = serializers.ReadOnlyField(source='Crop.cropName')
+
+    class Meta:
+        model = FuturesContract
+        fields = ('id', 'user', 'Crop', 'Quantity', 'OrderDate', 'DeliveryDate', 'ProductionMode', 'ContractPrice', 'advance', )

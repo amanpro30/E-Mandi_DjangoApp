@@ -51,6 +51,10 @@ class FuturesContract(models.Model):
     ContractPrice=models.FloatField(default=None)
     advance=models.FloatField(default=None)
 
+    def __str__(self):
+       return f'{self.Quantity}{self.user.username} FutureContract'
+
+
 class FutureBid(models.Model):
     order=models.ForeignKey(MarketOrder,on_delete=models.CASCADE,null=True)
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
