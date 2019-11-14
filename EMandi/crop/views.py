@@ -16,6 +16,13 @@ class PriceDataView(generics.ListCreateAPIView):
         return PriceData.objects.filter(crop=crop_instance)
 
 
+class CropTypes(generics.ListAPIView):
+    queryset = Crop.objects.all()
+    serializer_class = CropSerializer
+
+    def get_queryset(self):
+        return Crop.objects.values('cropName').distinct()
+
 class CropVariety(generics.ListAPIView):
     queryset = Crop.objects.all()
     serializer_class = CropSerializer
@@ -24,3 +31,4 @@ class CropVariety(generics.ListAPIView):
         cn = self.kwargs['cropName']
         return Crop.objects.filter(cropName=cn)
        
+
