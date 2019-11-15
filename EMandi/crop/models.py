@@ -6,7 +6,7 @@ class Crop(models.Model):
     varietyName=models.CharField(max_length=50,null=True)
     
     def __str__(self):
-        return f'{self.cropName}{self.varietyName}'
+        return f'{self.cropName}'
 
 class PriceData(models.Model):
     crop=models.ForeignKey(Crop,on_delete=models.CASCADE,null=True)
