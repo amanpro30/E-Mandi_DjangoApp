@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'transaction',
     'order',
+    'paypal_payments',
     'crop',
 ]
 
@@ -96,21 +97,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'EMandi.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'E_Mandi',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5433',
-#     }
-# }
 
 
 DATABASES = {
