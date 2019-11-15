@@ -35,8 +35,9 @@ ALLOWED_HOSTS = ['http://localhost:3000/', 'localhost:3000', 'localhost',
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'transaction',
     'order',
-    'paypal_payments',
+    'crop',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +102,17 @@ WSGI_APPLICATION = 'EMandi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'E_Mandi',
+#         'USER': 'postgres',
+#         'PASSWORD': 'password',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5433',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -127,7 +139,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'EMandi.utils.my_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'EMandi.utils.my_jwt_response_handler',
+    'JWT_VERIFY_EXPIRATION': False,
 }
 
 # Internationalization
@@ -182,10 +195,11 @@ EMAIL_HOST_PASSWORD = 'tommyjerry'
 # )
 
 CSRF_TRUSTED_ORIGINS = (
+    'http://127.0.0.1:8000/',
+    '127.0.0.1',
     'http://localhost:3000/',
     'localhost:3000',
-    'http://127.0.0.1:8000/',
-    '127.0.0.1'
+    
 )
 
 PAYPAL_CLIENT_ID='Ack2nK_VJoxKGz8AITGB_tYAwNpePsQCjURtyaMBB1dJbaIbP-iiCEK6YCiHx3Jcprd2aErqYDYXuK36'

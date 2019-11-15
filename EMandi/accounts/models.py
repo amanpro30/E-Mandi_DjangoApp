@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from order.models import ExecutedOrder
+from django.dispatch import *
+from django.db.models.signals import post_save
+
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -13,6 +17,8 @@ class UserProfile(models.Model):
     street = models.CharField(max_length =500, default='')
     aadharcard = models.BigIntegerField( default=0)
     pincode = models.IntegerField(default=0)
+    email_confirmed = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.user.username
@@ -33,4 +39,5 @@ class OrderReview(models.Model):
 
     def __str__(self):
         return f'{self.order.orderid.CropName}{self.order.buyerid.username} OrderReview'
+
 
