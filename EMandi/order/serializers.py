@@ -22,7 +22,7 @@ class BidSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bid
-        fields = ('id','order', 'price',)
+        fields = ('id','order', 'price','user')
 
 
 class BidUpdateSerializer(serializers.ModelSerializer):

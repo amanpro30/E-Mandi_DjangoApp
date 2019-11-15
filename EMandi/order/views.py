@@ -44,7 +44,15 @@ class BidListByOrder(generics.ListCreateAPIView):
         serializer.save(user=self.request.user, order=order_instance)
 
 
-
+class BidListUser(generics.ListAPIView):
+    queryset = Bid.objects.all()
+    serializer_class = BidSerializer
+    def get_queryset(self):
+        order_id = self.kwargs['order']
+        user=self.request.user
+        user_instance = User.objects.get(username=user)
+        order_instance = MarketOrder.objects.get(id=order_id)
+        return Bid.objects.filter(user=user_instance, order=order_instance)  
 
 class BidListUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = Bid.objects.all()
@@ -100,6 +108,9 @@ class futurecontractlist(generics.ListAPIView):
     queryset = FuturesContract.objects.all()
     serializer_class = futurecontractSerializer
 
+class OrderFilter(generics.ListAPIView):
+    queryset = MarketOrder.objects.all()
+    serializer_class = MarketSerializer
 
     def get_queryset(self):
         username = self.request.user
@@ -140,3 +151,6 @@ class FutureBidUpdate(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
     def perform_update(self, serializers):
         serializer.save(user=self.request.user)
+        cn = self.kwargs['cropName']
+        cv = self.kwargs['cropVariety']
+        return MarketOrder.objects.filter(~Q(user=user_instance),CropName=cn, CropVariety=cv)
