@@ -159,6 +159,7 @@ class Signup(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         print(request.user)
+
         k = super().create(request, *args, **kwargs)
         
         current_site = get_current_site(request)
@@ -179,23 +180,43 @@ def account_activation_sent(request):
 
 
 
+# def activate(request, uidb64, token):
+#     try:
+#         uid = force_text(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+
+#     if user is not None and account_activation_token.check_token(user, token):
+#         user.is_active = True
+#         print(user.__dict__, '*************2222222222', user.userprofile.email_confirmed)
+#         user.userprofile.email_confirmed = True
+#         user.save()
+#         login(request, user)
+#         print(user.__dict__, '*************', user.userprofile.email_confirmed)
+#         return redirect('http://127.0.0.1:3000')
+#     else:
+#         return render(request, 'accounts/account_activation_invalid.html')
+
+
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+        current_user = User.objects.get(pk=uid)
+        print(current_user)
+    except(TypeError, ValueError, OverflowError):
+        current_user = None
+    if current_user is not None and account_activation_token.check_token(current_user, token):
+        current_user.is_active = True
+        current_user.save()
+        login(request, current_user)
+        return redirect('http://127.0.0.1:3000/login')
 
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        print(user.__dict__, '*************2222222222', user.userprofile.is_active)
-        user.userprofile.is_active = True
-        user.save()
-        login(request, user)
-        print(user.__dict__, '*************', user.userprofile.is_active)
-        return redirect('http://127.0.0.1:3000')
     else:
-        return render(request, 'accounts/account_activation_invalid.html')
+        return render(request,'accounts/account_activation_invalid.html')
+        # return HttpResponse('Activation link is invalid')
+
+
 
 class profile_change(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = User2Serializer
