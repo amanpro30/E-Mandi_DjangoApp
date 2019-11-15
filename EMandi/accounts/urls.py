@@ -13,7 +13,7 @@ app_name = "accounts"
 
 urlpatterns = [
     path('register/', views.register, name='register'),
-    #path('login/', views.user_login, name='user_login'),
+    # path('login/', views.user_login, name='user_login'),
     path('profile/', views.view_profile, name='profile'),
     path('profile/edit', views.edit_profile, name='edit_profile'),
     path('profile/password/',views.change_password,name='change_password'),
