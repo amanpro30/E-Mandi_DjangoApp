@@ -81,6 +81,24 @@ class OrderDetailOther(generics.ListCreateAPIView):
         username = self.request.user
         user_instance = User.objects.get(username=username)
         return MarketOrder.objects.filter(~Q(user=user_instance))
+
+class FutureDetailSelf(generics.ListCreateAPIView):
+    queryset = MarketOrder.objects.all()
+    serializer_class = futurecontractSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return FuturesContract.objects.filter(user=user_instance)
+
+class FutureDetailOther(generics.ListCreateAPIView):
+    queryset = MarketOrder.objects.all()
+    serializer_class = futurecontractSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return FuturesContract.objects.filter(~Q(user=user_instance))        
  
 
 class futurecontract(generics.ListCreateAPIView):
