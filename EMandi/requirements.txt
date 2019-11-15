@@ -3,19 +3,14 @@ certifi==2018.1.18
 cffi==1.11.5
 chardet==3.0.4
 cryptography==2.3
-Django==1.11.23
-django-cors-headers==2.1.0
 django-debug-toolbar==1.9.1
-djangorestframework==3.9.1
 idna==2.6
 paypalrestsdk==1.13.1
 pycparser==2.18
 pyOpenSSL==17.5.0
 python-decouple==3.1
-pytz==2018.3
 requests==2.22.0
 six==1.11.0
-sqlparse==0.2.4
 urllib3==1.24.2
 asn1crypto==0.24.0
 cryptography==2.3
@@ -29,7 +24,6 @@ pycrypto==2.6.1
 pygobject==3.26.1
 pyxdg==0.26
 SecretStorage==2.3.1
-six==1.11.0
 Django==2.2.6
 django-cors-headers==3.1.1
 django-crispy-forms==1.8.0
@@ -40,3 +34,7 @@ pkg-resources==0.0.0
 PyJWT==1.7.1
 pytz==2019.3
 sqlparse==0.3.0
+appdirs==1.4.0
+packaging==16.8
+pkg-resources==0.0.0
+pyparsing==2.1.10
