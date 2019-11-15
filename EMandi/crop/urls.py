@@ -9,5 +9,6 @@ app_name = "crop"
 
 urlpatterns = [
     path('pricedata/<crop>/<variety>/',PriceDataView.as_view()),
-    path('crop/<cropName>', CropVariety.as_view()),
+    path('crop/<cropName>/', CropVariety.as_view()),
+    path('cropname/', CropTypes.as_view()),
 ]
