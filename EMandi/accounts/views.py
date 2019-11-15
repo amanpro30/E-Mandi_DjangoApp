@@ -188,11 +188,11 @@ def activate(request, uidb64, token):
 
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
-        print(user.__dict__, '*************2222222222', user.userprofile.email_confirmed)
-        user.userprofile.email_confirmed = True
+        print(user.__dict__, '*************2222222222', user.userprofile.is_active)
+        user.userprofile.is_active = True
         user.save()
         login(request, user)
-        print(user.__dict__, '*************', user.userprofile.email_confirmed)
+        print(user.__dict__, '*************', user.userprofile.is_active)
         return redirect('http://127.0.0.1:3000')
     else:
         return render(request, 'accounts/account_activation_invalid.html')
