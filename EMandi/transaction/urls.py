@@ -17,6 +17,7 @@ urlpatterns = [
    path('bank/<username>/',Update.as_view()),
    path('balance/',BalanceView.as_view()),
    path('balances/<username>/',BalanceUpdate.as_view()),
+   path('transaction/',MakeTransactionView.as_view()),
 ]   
 
 # router = DefaultRouter()

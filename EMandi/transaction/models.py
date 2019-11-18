@@ -13,7 +13,7 @@ class BankDetails(models.Model):
 
 class Transaction(models.Model):
     Customer=models.ForeignKey(User,on_delete=models.CASCADE)
-    TransDate=models.DateTimeField(auto_now=False,auto_now_add=True)
+    TransDate=models.DateField(auto_now=False,auto_now_add=True)
     Amount=models.PositiveIntegerField(default=None)
     TransType_choices = (
         ('Debited', 'Debited'),
@@ -29,6 +29,7 @@ class Balance(models.Model):
     accountbalance = models.PositiveIntegerField()
     def __str__(self):
         return f'{self.user.username} Balance'
+
 
 def create_balance(sender, **kwargs):
     if kwargs['created']:

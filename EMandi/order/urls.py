@@ -9,6 +9,7 @@ urlpatterns = [
     path('marketorder/', views.OrderList.as_view()),
     path('marketorder/<id>/', views.OrderDetail.as_view()),
     path('myorder/',views.OrderDetailSelf.as_view()),
+    path('myorderexec/',views.OrderDetailSelfExectued.as_view()),
     path('otherorder/',views.OrderDetailOther.as_view()),
     path('getbid/order/<order>/',views.BidListByOrder.as_view()),
     path('getbid/curruser/<order>/',views.BidListUser.as_view()),
