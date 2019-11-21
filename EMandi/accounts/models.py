@@ -4,6 +4,7 @@ from django.core.validators import RegexValidator
 from order.models import ExecutedOrder
 from django.dispatch import *
 from django.db.models.signals import post_save
+from django.contrib.auth import authenticate
 
 
 
@@ -17,7 +18,6 @@ class UserProfile(models.Model):
     street = models.CharField(max_length =500, default='')
     aadharcard = models.BigIntegerField( default=0)
     pincode = models.IntegerField(default=0)
-
 
 
     def __str__(self):
