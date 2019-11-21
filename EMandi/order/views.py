@@ -28,7 +28,10 @@ class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MarketSerializer
 
     def perform_update(self, serializer):
-        serializer.save(user=self.request.user)
+        self.order_id = self.kwargs['id']
+        self.order_instance=MarketOrder.objects.filter(pk=self.order_id).update(OrderStatus='2')
+        self.order_instance.save()
+        # serializer.save(user=self.request.user)
     
     lookup_field='id'
 
@@ -131,6 +134,16 @@ class OrderFilter(generics.ListAPIView):
         # crop_instance = Crop.objects.get(cropName=Crop_name,varietyName=Crop_variety)
         return FuturesContract.objects.filter(user=user_instance,)#,Crop=crop_instance)
 
+
+# class orderupdate(generics.RetrieveUpdateDestroyAPIView):
+#     queryset=MarketOrder.objects.all()
+#     serializer_class = MarketSerializer
+
+
+#     def perform_update(self,serializer):
+#         order_id = self.kwargs['order']
+
+#         serializer.save(user=self.request.user,)
 
 
 class futurecontractupdate(generics.RetrieveUpdateDestroyAPIView):
