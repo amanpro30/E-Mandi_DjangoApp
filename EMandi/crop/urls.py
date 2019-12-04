@@ -11,4 +11,5 @@ urlpatterns = [
     path('pricedata/<crop>/<variety>/',PriceDataView.as_view()),
     path('crop/<cropName>/', CropVariety.as_view()),
     path('cropname/', CropTypes.as_view()),
+    path('watchlist/<crop>/<variety>/',WatchList.as_view()),
 ]

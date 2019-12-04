@@ -3,3 +3,4 @@ from .models import *
 
 admin.site.register(Crop)
 admin.site.register(PriceData)
+admin.site.register(WatchList)

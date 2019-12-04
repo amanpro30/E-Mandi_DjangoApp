@@ -31,4 +31,14 @@ class CropVariety(generics.ListAPIView):
         cn = self.kwargs['cropName']
         return Crop.objects.filter(cropName=cn)
        
+       
+class WatchList(generics.ListCreateAPIView):
+    queryset = WatchList.objects.all()
+    serializer_class = WatchListSerializer
 
+    def perform_create(self,serializer):
+        crop_name = self.kwargs['crop']
+        variety_name = self.kwargs['variety']
+        crop_instance = Crop.objects.get(cropName=crop_name,varietyName=variety_name)
+        user_instance = User.objects.get(user=request.user)
+        serializer.save(user=user_instance, crop=crop_instance)
