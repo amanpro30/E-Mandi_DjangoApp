@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Crop(models.Model):
@@ -19,3 +20,7 @@ class PriceData(models.Model):
 
     def __str__(self):
         return f'{self.crop.cropName}{self.low}'
+
+class WatchList(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    crop = models.ForeignKey(Crop,on_delete=models.CASCADE)
