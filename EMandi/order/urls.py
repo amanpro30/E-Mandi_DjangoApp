@@ -19,6 +19,7 @@ urlpatterns = [
     path('getbid/<id>/',views.BidListUpdate.as_view()),
     path('getbids/',views.AllBids.as_view()),
     path('futurecontract/<cropName>/<cropVariety>/',views.futurecontract.as_view()),
+    path('futurecontract/<id>/', views.OrderDetail_future.as_view()),
     path('futurecontractupdate/<id>/', views.futurecontractupdate.as_view()),
     path('futurecontract/',views.futurecontractlist.as_view()),
     path('futurecontract/<id>',views.FutureDetail.as_view()),

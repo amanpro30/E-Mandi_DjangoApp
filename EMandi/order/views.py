@@ -42,6 +42,16 @@ class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
         order_instance = MarketOrder.objects.filter(pk=order_id).update(OrderStatus='2')
     lookup_field='id'
 
+class OrderDetail_future(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FuturesContract.objects.all()
+    serializer_class = futurecontractSerializer
+
+    def perform_update(self, serializer):
+        order_id = self.kwargs['id']
+        order_instance = FuturesContract.objects.filter(pk=order_id).update(order_status=True)
+    lookup_field='id'
+
+
 class BidListByOrder(generics.ListCreateAPIView):
     queryset = Bid.objects.all()
     serializer_class = BidSerializer
@@ -103,7 +113,7 @@ class OrderDetailOther(generics.ListCreateAPIView):
     def get_queryset(self):
         username = self.request.user
         user_instance = User.objects.get(username=username)
-        return MarketOrder.objects.filter(~Q(user=user_instance), orderStatus="1")
+        return MarketOrder.objects.filter(~Q(user=user_instance), OrderStatus="1")
 
 class FutureDetailSelf(generics.ListCreateAPIView):
     queryset = FuturesContract.objects.all()
