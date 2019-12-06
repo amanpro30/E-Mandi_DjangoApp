@@ -51,7 +51,7 @@ class FuturesContract(models.Model):
     ProductionMode=models.CharField(max_length=50)
     ContractPrice=models.FloatField(default=None)
     advance=models.FloatField(default=None)
-    # order_status=models.BooleanField(initial=False, required=False)
+    order_status=models.BooleanField(default=False)
 
     def __str__(self):
        return f'{self.Quantity}{self.user.username} FutureContract'
