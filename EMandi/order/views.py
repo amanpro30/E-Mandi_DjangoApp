@@ -21,17 +21,6 @@ class OrderList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user,OrderStatus='1')
 
-class OrderListUpdate(generics.RetrieveUpdateDestroyAPIView):
-    queryset = MarketOrder.objects.all()
-    serializer_class = MarketSerializer
-    
-    def perform_update(self, serializer):
-        order_id = self.kwargs['id']
-        order_instance = MarketOrder.objects.filter(pk=self.order_id).update(OrderStatus='2')
-        order_instance.save()
-
-
-
 
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MarketOrder.objects.all()
@@ -39,7 +28,13 @@ class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def perform_update(self, serializer):
         order_id = self.kwargs['id']
+        final_price = self.kwargs['price']
+        crop_name = MarketOrder.objects.get(pk=order_id).CropName
+        print(crop_name)
+        crop_variety = MarketOrder.objects.get(pk=order_id).CropVariety 
         order_instance = MarketOrder.objects.filter(pk=order_id).update(OrderStatus='2')
+        crop_instance = Crop.objects.get(cropName=crop_name,varietyName=crop_variety)
+        order_record_instance = PriceData.objects.create(crop=crop_instance,price=final_price)
     lookup_field='id'
 
 class BidListByOrder(generics.ListCreateAPIView):
@@ -130,6 +125,8 @@ class futurecontract(generics.ListCreateAPIView):
 class futurecontractlist(generics.ListAPIView):
     queryset = FuturesContract.objects.all()
     serializer_class = futurecontractSerializer
+
+
 
 class OrderFilter(generics.ListAPIView):
     queryset = MarketOrder.objects.all()

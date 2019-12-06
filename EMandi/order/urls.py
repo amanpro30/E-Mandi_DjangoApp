@@ -7,7 +7,7 @@ app_name = "order"
 urlpatterns = [
     
     path('marketorder/', views.OrderList.as_view()),
-    path('marketorder/<id>/', views.OrderDetail.as_view()),
+    path('marketorder/<id>/<price>/', views.OrderDetail.as_view()),
     path('myorder/',views.OrderDetailSelf.as_view()),
     path('myorderexec/',views.OrderDetailSelfExectued.as_view()),
     path('otherorder/',views.OrderDetailOther.as_view()),
