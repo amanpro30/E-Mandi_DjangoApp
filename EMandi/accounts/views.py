@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from accounts.models import UserProfile
+from order.models import MarketOrder , ExecutedOrder
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -22,6 +23,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.template.loader import render_to_string
+from collections import OrderedDict
+
 
 
 def index(request):
@@ -258,3 +261,111 @@ class UsersProfileUpdate(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserBasicSerializer
 
     lookup_field="username"
+
+class userReview(generics.ListCreateAPIView):
+    queryset = UserReview.objects.all()
+    serializer_class = UserreviewSerializer
+
+
+    def get_queryset(self):
+
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        user_instance1 = UserProfile.objects.get(user=user_instance)
+        return UserReview.objects.filter(revieweduser=user_instance1)
+   
+    def perform_create(self,serializer):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        user_instance1 = UserProfile.objects.get(user=user_instance)
+        rev = self.kwargs['username']
+        review_instance = User.objects.get(username=rev)
+        review_instance1 = UserProfile.objects.get(user=review_instance)
+        # Crop_variety =self.kwargs['cropVariety']
+        serializer.save(user=user_instance1, revieweduser=review_instance1,)
+
+class ReviewFilter(generics.ListAPIView):
+    queryset = AvgRating.objects.all()
+    serializer_class = AvgRatingSerializer
+
+    def get(self, request, city):    
+        city_instance = city.lower()
+        city_instance1=UserProfile.objects.filter(city=city_instance)
+        print(city_instance1,'asskjhgfdshgfdshgfdsjhgfd')
+        dict1={}
+        list1=[]
+        for i in city_instance1:
+            list=AvgRating.objects.filter(user = i)
+            print(list)
+            for j in list:
+                dict2={}
+                dict2 = OrderedDict(
+                [('username', j.user.user.username),
+                 ('rating', j.avgrating),
+                 ('phone', i.phone),
+                 ('state', i.state),
+                 ('city', i.city),
+                 ('pincode', i.pincode),
+                 ('email', i.user.email),
+                 ])
+                list1.append(dict2)
+        dict1.update({"users":list1})
+
+        # print(dict1)
+        # user_instance1 = city_instance1.all()
+        return Response(dict1)#,Crop=crop_instance)
+
+
+class peruserReview(generics.ListAPIView):
+    queryset = UserReview.objects.all()
+    serializer_class = UserreviewSerializer
+
+
+    def get(self,request):
+
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        user_instance1 = UserProfile.objects.get(user=user_instance)
+        user_instance2=UserReview.objects.filter(revieweduser=user_instance1)
+        dict1={}
+        list1=[]
+        for i in user_instance2:
+            dict2={}
+            dict2 = OrderedDict(
+            [('user', i.user.user.username),
+             ('rating', i.rating),
+             ('review', i.review),
+             ])
+            list1.append(dict2)
+        dict1.update({"users":list1})
+        return Response(dict1)
+
+
+        # return UserReview.objects.filter(revieweduser=user_instance1)
+
+        # def get(self, request, city):    
+        # city_instance = city.lower()
+        # city_instance1=UserProfile.objects.filter(city=city_instance)
+        # print(city_instance1,'asskjhgfdshgfdshgfdsjhgfd')
+        # dict1={}
+        # list1=[]
+        # for i in city_instance1:
+        #     list=AvgRating.objects.filter(user = i)
+        #     print(list)
+        #     for j in list:
+        #         dict2={}
+        #         dict2 = OrderedDict(
+        #         [('username', j.user.user.username),
+        #          ('rating', j.avgrating),
+        #          ('phone', i.phone),
+        #          ('state', i.state),
+        #          ('city', i.city),
+        #          ('pincode', i.pincode),
+        #          ('email', i.user.email),
+        #          ])
+        #         list1.append(dict2)
+        # dict1.update({"users":list1})
+
+        # # print(dict1)
+        # # user_instance1 = city_instance1.all()
+        # return Response(dict1)#,Crop=crop_instance)
