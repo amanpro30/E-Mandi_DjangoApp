@@ -48,3 +48,9 @@ class FutureBidSerializer(serializers.ModelSerializer):
         model = FutureBid
 
         fields = ('id' , 'price', 'advance')
+
+class CitycropSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CityCrop
+        fields = ('id', 'cropname', 'city','quantity')
