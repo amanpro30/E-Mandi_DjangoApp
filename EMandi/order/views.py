@@ -286,3 +286,15 @@ class ExecutedOrderView(generics.ListAPIView):
         username = self.request.user
         user_instance = User.objects.get(username=username)
         return ExecutedOrder.objects.filter(buyerid=user_instance)
+
+class ExecutedOrderid(generics.ListAPIView):
+    queryset = ExecutedOrder.objects.all()
+    serializer_class = ExecutedOrderSerializer1
+
+    def get_queryset(self):
+        order = self.kwargs['orderid']
+        # user_instance = User.objects.get(username=username)
+        print(ExecutedOrder.objects.filter(orderid=order)[0].buyerid)
+        usern=UserProfile.objects.filter(user=ExecutedOrder.objects.get(orderid=order).buyerid)
+        print(usern.__dict__)
+        return usern

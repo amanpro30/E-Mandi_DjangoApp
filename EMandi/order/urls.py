@@ -30,5 +30,6 @@ urlpatterns = [
     path('futurebidupdate/<id>/',views.FutureBidUpdate.as_view()),
     path('crop/<cropName>/<cropVariety>/', views.OrderFilter.as_view()),
     path('executedorder/',views.ExecutedOrderView.as_view()),
+    path('executedorder/<orderid>/',views.ExecutedOrderid.as_view()),
     path('futurecontract/<id>',views.FutureDetail.as_view()),
 ]
