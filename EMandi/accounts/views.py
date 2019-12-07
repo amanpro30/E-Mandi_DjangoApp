@@ -334,7 +334,7 @@ class ReviewFilter(generics.ListAPIView):
 
         print(dict1)
         # user_instance1 = city_instance1.all()
-        return Response(dict1)#,Crop=crop_instance)
+        return Response(list1)#,Crop=crop_instance)
 
 
 class peruserReview(generics.ListAPIView):
@@ -342,9 +342,9 @@ class peruserReview(generics.ListAPIView):
     serializer_class = UserreviewSerializer
 
 
-    def get(self,request):
+    def get(self,request,username):
 
-        username = self.request.user
+        username = self.kwargs['username']
         user_instance = User.objects.get(username=username)
         user_instance1 = UserProfile.objects.get(user=user_instance)
         user_instance2=UserReview.objects.filter(revieweduser=user_instance1)
@@ -359,8 +359,17 @@ class peruserReview(generics.ListAPIView):
              ])
             list1.append(dict2)
         dict1.update({"users":list1})
-        return Response(dict1)
+        return Response(list1)
 
+class getAvgRating(generics.ListAPIView):
+    queryset=AvgRating.objects.all()
+    serializer_class=AvgRatingSerializer
+
+    def get_queryset(self):
+        username= self.kwargs['username']
+        user_instance = User.objects.get(username=username)
+        user_profile_instance = UserProfile.objects.get(user=user_instance)
+        return AvgRating.objects.filter(user=user_profile_instance)
 
         # return UserReview.objects.filter(revieweduser=user_instance1)
 
