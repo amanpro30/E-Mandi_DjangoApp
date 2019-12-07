@@ -11,16 +11,10 @@ class Crop(models.Model):
 
 class PriceData(models.Model):
     crop=models.ForeignKey(Crop,on_delete=models.CASCADE,null=True)
-    timestamp = models.DateTimeField()    
-    low=models.FloatField(default=None)
-    high=models.FloatField(default=None)
-    volume=models.IntegerField(default=0)
-    closing=models.FloatField(default=None)
-    opening=models.FloatField(default=None)
+    timestamp = models.DateTimeField(auto_now_add=True)    
+    price = models.FloatField(default=0.0)
 
-    def __str__(self):
-        return f'{self.crop.cropName}{self.low}'
 
 class WatchList(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    crop = models.ForeignKey(Crop,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    crop = models.ForeignKey(Crop,on_delete=models.CASCADE,null=True)

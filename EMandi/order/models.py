@@ -37,7 +37,6 @@ class ExecutedOrder(models.Model):
     orderid=models.OneToOneField(MarketOrder,on_delete=models.CASCADE)
     buyerid=models.ForeignKey(User,on_delete=models.CASCADE)
     date=models.DateTimeField(auto_now=True,auto_now_add=False)
-    commision=models.FloatField(default=None)
 
 
     def __str__(self):
@@ -53,25 +52,17 @@ class CityCrop(models.Model):
 
 def updatecitycrop(sender, **kwargs):
     if kwargs['created']:
-        print(kwargs['instance'].__dict__)
-        print(kwargs['instance'].orderid)
-        user_ins=kwargs['instance'].buyerid
-        print(user_ins)
-        user_instance1 = User.objects.get(username=user_ins)
-        user_instance=UserProfile.objects.get(user=user_instance1.id)
-        print(user_instance.city)
-        order_ins=kwargs['instance'].orderid
-        order_instance=MarketOrder.objects.get(id=order_ins.id)
-        # quantity_instance=MarketOrder.objects.get(Quantity=order_ins)
+        buyer_instance=kwargs['instance'].buyerid
+        city = UserProfile.objects.get(user=buyer_instance).city
+        crop_name=kwargs['instance'].orderid.CropName
+        Quantity=kwargs['instance'].orderid.Quantity
         try:
-            quantity = CityCrop.objects.get(city=user_instance.city,cropname=order_instance.CropName).quantity
-                        
+            quantity = CityCrop.objects.get(city=city,cropname=crop_name).quantity
         except:
             quantity = 0
-
-        new_quantity = quantity + order_instance.Quantity
-        CityCrop.objects.filter(city=user_instance.city,cropname=order_instance.CropName).delete()
-        CityCrop.objects.create(city=user_instance.city,cropname=order_instance.CropName,quantity=new_quantity)
+        new_quantity = quantity + Quantity
+        CityCrop.objects.filter(city=city,cropname=crop_name).delete()
+        CityCrop.objects.create(city=city,cropname=crop_name,quantity=new_quantity)
 
 class FuturesContract(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
