@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
-from accounts.models import UserProfile
+from accounts.models import *
 from django.contrib.auth import get_user_model
 
 class UserSerializer(serializers.ModelSerializer):
@@ -98,4 +98,26 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('token', 'username', 'password', 'first_name', 'last_name', 'email','profile')
+
+class UserreviewSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.username')
+    revieweduser = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = UserReview
+        fields = ('id', 'user', 'revieweduser', 'review', 'rating',)
+        # read_only_fields=[ 'avgrating']
+
+
+
+class AvgRatingSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.user.username')
+    # avgrating = serializers.ReadOnlyField(source='avgrating.revieweduser.user.username')
+
+    class Meta:
+        model = AvgRating
+        fields = ('id', 'user','avgrating',)
+        read_only_fields=[ 'avgrating','user']
 

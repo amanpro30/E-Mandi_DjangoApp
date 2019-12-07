@@ -233,3 +233,36 @@ class FutureBidUpdate(generics.RetrieveUpdateDestroyAPIView):
         cn = self.kwargs['cropName']
         cv = self.kwargs['cropVariety']
         return MarketOrder.objects.filter(~Q(user=user_instance),CropName=cn, CropVariety=cv)
+
+class Citycropquant(generics.ListAPIView):
+    queryset = CityCrop.objects.all()
+    serializer_class = CitycropSerializer
+
+
+    def get_queryset(self):
+
+        city = self.kwargs['city']
+        return CityCrop.objects.filter(city=city).order_by('-quantity')
+
+class Cropcityquant(generics.ListAPIView):
+    queryset = CityCrop.objects.all()
+    serializer_class = CitycropSerializer
+
+
+    def get_queryset(self):
+
+        cropname = self.kwargs['cropname']
+        return CityCrop.objects.filter(cropname=cropname).order_by('-quantity')
+
+class Quantcropcity(generics.ListAPIView):
+    queryset = CityCrop.objects.all()
+    serializer_class = CitycropSerializer
+
+
+    def get_queryset(self):
+
+        cropname = self.kwargs['cropname']
+        city = self.kwargs['city']
+
+        return CityCrop.objects.filter(cropname=cropname,city=city).order_by('-quantity')
+

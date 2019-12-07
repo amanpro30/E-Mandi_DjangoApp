@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from accounts.models import UserProfile
+
 from crop.models import *
 
 class MarketOrder(models.Model):
@@ -40,6 +43,36 @@ class ExecutedOrder(models.Model):
     def __str__(self):
        return f'{self.orderid.CropName}{self.buyerid.username} ExecuteOrder'
 
+
+class CityCrop(models.Model):
+    cropname=models.CharField(max_length=50)
+    city=models.CharField(max_length=50)
+    quantity=models.FloatField(default=0.0)
+    def __str__(self):
+        return str(self.city)
+
+def updatecitycrop(sender, **kwargs):
+    if kwargs['created']:
+        print(kwargs['instance'].__dict__)
+        print(kwargs['instance'].orderid)
+        user_ins=kwargs['instance'].buyerid
+        print(user_ins)
+        user_instance1 = User.objects.get(username=user_ins)
+        user_instance=UserProfile.objects.get(user=user_instance1.id)
+        print(user_instance.city)
+        order_ins=kwargs['instance'].orderid
+        order_instance=MarketOrder.objects.get(id=order_ins.id)
+        # quantity_instance=MarketOrder.objects.get(Quantity=order_ins)
+        try:
+            quantity = CityCrop.objects.get(city=user_instance.city,cropname=order_instance.CropName).quantity
+                        
+        except:
+            quantity = 0
+
+        new_quantity = quantity + order_instance.Quantity
+        CityCrop.objects.filter(city=user_instance.city,cropname=order_instance.CropName).delete()
+        CityCrop.objects.create(city=user_instance.city,cropname=order_instance.CropName,quantity=new_quantity)
+
 class FuturesContract(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     Crop=models.ForeignKey(Crop,on_delete=models.CASCADE)
@@ -69,3 +102,4 @@ class FutureDeal(models.Model):
     date=models.DateTimeField(auto_now=True,auto_now_add=False)
 
 
+post_save.connect(updatecitycrop, sender=ExecutedOrder)
