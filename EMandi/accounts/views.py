@@ -294,6 +294,7 @@ class ReviewFilter(generics.ListAPIView):
         print(city_instance1,'asskjhgfdshgfdshgfdsjhgfd')
         dict1={}
         list1=[]
+        list2=[]
         for i in city_instance1:
             list=AvgRating.objects.filter(user = i)
             print(list)
@@ -309,7 +310,13 @@ class ReviewFilter(generics.ListAPIView):
                  ('email', i.user.email),
                  ])
                 list1.append(dict2)
+        # list2.update([list1])
+        print(list1)
+        list1=sorted(list1, key = lambda i: i['rating'],reverse=True)
+        print(list2,'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
         dict1.update({"users":list1})
+        # sorted_dict1 = OrderedDict(sorted(dict1.items(), key=lambda item: item[1], reverse=True))
+
 
         # print(dict1)
         # user_instance1 = city_instance1.all()
@@ -321,9 +328,10 @@ class peruserReview(generics.ListAPIView):
     serializer_class = UserreviewSerializer
 
 
-    def get(self,request):
+    def get(self,request,username):
 
-        username = self.request.user
+        # username = self.request.user
+        username = self.kwargs['username']
         user_instance = User.objects.get(username=username)
         user_instance1 = UserProfile.objects.get(user=user_instance)
         user_instance2=UserReview.objects.filter(revieweduser=user_instance1)

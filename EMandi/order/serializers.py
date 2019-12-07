@@ -54,3 +54,10 @@ class CitycropSerializer(serializers.ModelSerializer):
     class Meta:
         model = CityCrop
         fields = ('id', 'cropname', 'city','quantity')
+
+
+class CropProductionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CropProduction
+        fields = ('id', 'cropname', 'city','quantity')

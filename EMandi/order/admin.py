@@ -10,3 +10,5 @@ admin.site.register(FuturesContract)
 admin.site.register(FutureBid)
 admin.site.register(FutureDeal)
 admin.site.register(CityCrop)
+admin.site.register(CropProduction)
+

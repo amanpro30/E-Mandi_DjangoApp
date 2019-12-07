@@ -187,3 +187,36 @@ class Quantcropcity(generics.ListAPIView):
 
         return CityCrop.objects.filter(cropname=cropname,city=city).order_by('-quantity')
 
+
+class Cityproduction(generics.ListAPIView):
+    queryset = CropProduction.objects.all()
+    serializer_class = CropProductionSerializer
+
+
+    def get_queryset(self):
+
+        city = self.kwargs['city']
+        return CropProduction.objects.filter(city=city).order_by('-quantity')
+
+class Cropproduction(generics.ListAPIView):
+    queryset = CropProduction.objects.all()
+    serializer_class = CropProductionSerializer
+
+
+    def get_queryset(self):
+
+        cropname = self.kwargs['cropname']
+        return CropProduction.objects.filter(cropname=cropname).order_by('-quantity')
+
+class Citycropproduction(generics.ListAPIView):
+    queryset = CropProduction.objects.all()
+    serializer_class = CropProductionSerializer
+
+
+    def get_queryset(self):
+
+        cropname = self.kwargs['cropname']
+        city = self.kwargs['city']
+
+        return CropProduction.objects.filter(cropname=cropname,city=city).order_by('-quantity')
+
