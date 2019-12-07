@@ -52,6 +52,16 @@ class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
         executed_order_instance = ExecutedOrder.objects.create(orderid=order_instance,buyerid=buyer_instance)
     lookup_field='id'
 
+class OrderDetail_future(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FuturesContract.objects.all()
+    serializer_class = futurecontractSerializer
+
+    def perform_update(self, serializer):
+        order_id = self.kwargs['id']
+        order_instance = FuturesContract.objects.filter(pk=order_id).update(order_status=True)
+    lookup_field='id'
+
+
 class BidListByOrder(generics.ListCreateAPIView):
     queryset = Bid.objects.all()
     serializer_class = BidSerializer
@@ -113,7 +123,34 @@ class OrderDetailOther(generics.ListCreateAPIView):
     def get_queryset(self):
         username = self.request.user
         user_instance = User.objects.get(username=username)
-        return MarketOrder.objects.filter(~Q(user=user_instance),OrderStatus="1")
+        return MarketOrder.objects.filter(~Q(user=user_instance), OrderStatus="1")
+
+class FutureDetailSelf(generics.ListCreateAPIView):
+    queryset = FuturesContract.objects.all()
+    serializer_class = futurecontractSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return FuturesContract.objects.filter(user=user_instance, order_status=False)
+
+class FutureDetailSelfExectued(generics.ListCreateAPIView):
+    queryset = FuturesContract.objects.all()
+    serializer_class = futurecontractSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return FuturesContract.objects.filter(user=user_instance,order_status=True)
+
+class FutureDetailOther(generics.ListCreateAPIView):
+    queryset = FuturesContract.objects.all()
+    serializer_class = futurecontractSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return FuturesContract.objects.filter(~Q(user=user_instance), order_status=False)        
  
 
 class futurecontract(generics.ListCreateAPIView):
@@ -170,11 +207,20 @@ class OrderFilter(generics.ListAPIView):
 class futurecontractupdate(generics.RetrieveUpdateDestroyAPIView):
     queryset=FuturesContract.objects.all()
     serializer_class = futurecontractSerializer
-    lookup_field ="id"
 
     def perform_update(self,serializer):
-        serializer.save(user=self.request.user,)
+        order_id = self.kwargs['id']
+        order_instance = MarketOrder.objects.filter(pk=self.order_id).update(order_status=True)
+        order_instance.save()
 
+class FutureDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FuturesContract.objects.all()
+    serializer_class = futurecontractSerializer
+
+    def perform_update(self, serializer):
+        order_id = self.kwargs['id']
+        order_instance = FuturesContract.objects.filter(pk=order_id).update(order_status=True)
+    lookup_field='id'
 
 class FutureBids(generics.ListCreateAPIView):
     queryset = FutureBid.objects.all()
