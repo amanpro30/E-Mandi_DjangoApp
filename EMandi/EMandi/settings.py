@@ -35,9 +35,8 @@ ALLOWED_HOSTS = ['http://localhost:3000/', 'localhost:3000', 'localhost',
 # Application definition
 
 INSTALLED_APPS = [
-    
-    'django.contrib.auth',
     'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -99,27 +98,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'EMandi.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'E_Mandi',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5433',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+# DATABASES = {
+#    'default': {
+#       'ENGINE': 'djongo',
+#       'NAME': 'san',
+#    }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -195,11 +185,10 @@ EMAIL_HOST_PASSWORD = 'tommyjerry'
 # )
 
 CSRF_TRUSTED_ORIGINS = (
-    'http://127.0.0.1:8000/',
-    '127.0.0.1',
     'http://localhost:3000/',
     'localhost:3000',
-    
+    'http://127.0.0.1:8000/',
+    '127.0.0.1'
 )
 
 PAYPAL_CLIENT_ID='Ack2nK_VJoxKGz8AITGB_tYAwNpePsQCjURtyaMBB1dJbaIbP-iiCEK6YCiHx3Jcprd2aErqYDYXuK36'

@@ -39,7 +39,7 @@ class futurecontractSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FuturesContract
-        fields = ('id', 'user', 'Crop', 'Quantity', 'OrderDate', 'DeliveryDate', 'ProductionMode', 'ContractPrice', 'advance', )
+        fields = ('id', 'user', 'Crop', 'Quantity', 'OrderDate', 'DeliveryDate', 'ProductionMode', 'AdvanceDate', 'ContractPrice', 'advance', )
 
 
 class FutureBidSerializer(serializers.ModelSerializer):

@@ -62,4 +62,7 @@ class BalanceUpdateSerializer(serializers.ModelSerializer):
         fields = ('username', 'balance', )
 
 
-
+class MakeTransactionSerializer(serializers.ModelSerializer):
+        class Meta:
+                model=Transaction
+                fields = ('TransDate','Amount','TransType')

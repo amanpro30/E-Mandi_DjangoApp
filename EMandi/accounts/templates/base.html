@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB66kGP6U5bfFSwSCMvkESsVD0N1FErzFQ&callback=myMap"></script>
             <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
             <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="{% static "accounts/css/bootstrap.min.css" %}" >
             <!-- Material Design Bootstrap -->
@@ -48,108 +48,40 @@
         
     
     </head>
-        <!-- <body style="background-image:url('../../static/courses/images/25.jpg');background-size:cover;background-repeat:no-repeat;background-width:100%">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background-color:#f5f5f5">
+        <body style="color:#f5f5f5 ">
+            <nav class="navbar navbar-expand-md  navbar-dark bg-dark fixed-top" style="background-color:#f5f5f5">
                 <div class="navbar-header">
-                  <a class="navbar-brand" style="font-family:'Roboto-Bold-eot'"href="/">&#8377;Mandi</a>
+                  <a class="navbar-brand" style="font-family:'Roboto-Bold-eot'"href="http://127.0.0.1:3000/">&emsp;&emsp;&emsp;&emsp;&emsp;
+                    &#8377;Mandi</a>
                 </div>
                 <div class="nav navbar-nav float-right" style="font-family:'Roboto-Bold-eot'">
                     
                     {% if user.is_authenticated %}
                     
-                    <ul class="navbar-nav mr-auto my-2 my-lg-0">
-                        <li><a class="nav-link" href="/">Home</a></li>
-                        <li><a class="nav-link" href='/accounts/profile'>Profile</a></li>
-                        <li><a class="nav-link" href='/logout'>Logout </a></li>
-
+                    <ul class="navbar-nav  ml-auto">
+                        <li><a class="nav-link" href="http://127.0.0.1:3000/">Home </a></li>
+                        <li><a class="nav-link" href="http://127.0.0.1:3000/signup">Register </a></li>
+                        <li><a class="nav-link" href='http://127.0.0.1:3000/login'>Login </a></li>
+    
                     </ul>
                     {% else %}
-                    <ul class="navbar-nav mr-auto">
-                        <li><a class="nav-link" href="/">Home </a></li>
-                    </ul>
-                    <ul class="navbar-nav mr-auto">
-                        <li><a class="nav-link" href='/accounts/login'>Login </a></li>
-                        <li><a class="nav-link" href="/accounts/register">Register <span class="fa fa-user-plus"></span></a></li>
+                    <ul class="navbar-nav ml-auto">
+                        <li><a class="nav-link" href="http://127.0.0.1:3000/">Home </a></li>
+                    
+                        <li><a class="nav-link" href="http://127.0.0.1:3000/signup">Register </a></li>
+                        <li><a class="nav-link" href='http://127.0.0.1:3000/login'>Login </a></li>
                     </ul>
                     {% endif %}
                 </div>
             </nav><br><br>
             {% block body %}
             This is base for you
-            {% endblock %} -->
-            <!-- <footer class="container-fluid  text-center peach-gradient">
-                <p class="m-0 text-dark text-center ">Copyright &copy;2019 E-Mandi</p>
-            </footer> -->
-    
-    
-    
-    
-<body>
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-<div class="container">
-  <a  class="navbar-brand" style="color:white"><b>&#8377;Mandi</b></a>
-  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-   
-      
-        {% if user.is_authenticated %}
-        <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                      </li>
-                
-                      <li class="nav-item">
-                        <a  class="nav-link" href="/marketplace">Market</a>
-                      </li>
-                      <li class="nav-item">
-                        <a  class="nav-link" href="/portfolio">Portfolio</a>
-                      </li>
-                      
-                      <li class="nav-item">
-                        <a  class="nav-link" href="/pricing">Pricing</a>
-                      </li><li class="nav-item">
-                            <a  class="nav-link" href="/accounts/profile">Profile</a>
-                          </li>
-      
-        <li class="nav-item active">
-        <a href='/logout' class="nav-link">Logout</a>
-      </li>
-    </ul>
-    {% else %}
-
-    <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-      
-            <li class="nav-item">
-              <a  class="nav-link" href="/marketplace">Market</a>
-            </li>
-            <li class="nav-item">
-              <a  class="nav-link" href="/portfolio">Portfolio</a>
-            </li>
-            
-            <li class="nav-item">
-              <a  class="nav-link" href="/pricing">Pricing</a>
-            </li>
-            <li class="nav-item">
-                    <a  class="nav-link" href="/accounts/register">SignUp</a>
-                  </li>
-                  <li class="nav-item">
-                        <a  class="nav-link" href="/accounts/login">Login</a>
-                      </li>
-  
-    
-    </ul>
-    {% endif %}
-
-  </div>
-</div>
-</nav>
-            {% block body1 %}
-            This is base for you
             {% endblock %}
-</body>
-</html>
+            
+    </body>
+</html> 
+
+
+
+
+

@@ -53,3 +53,17 @@ class BalanceUpdate(generics.RetrieveUpdateDestroyAPIView):
 
     lookup_field="username"
 
+
+class MakeTransactionView(generics.ListCreateAPIView):
+    queryset = Transaction.objects.all()
+    serializer_class = MakeTransactionSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return Transaction.objects.filter(Customer=user_instance)
+
+    def perform_create(self,serializer):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        serializer.save(Customer=user_instance,TransType='Credited')

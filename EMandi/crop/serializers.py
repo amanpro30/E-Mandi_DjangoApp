@@ -19,3 +19,7 @@ class PriceDataSerializer(serializers.ModelSerializer):
         fields = [ 'crop','timestamp','low','high','volume','closing','opening']
         read_only_fields=['crop']
 
+class WatchListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WatchList
+        fields = [ 'user', 'crop']
