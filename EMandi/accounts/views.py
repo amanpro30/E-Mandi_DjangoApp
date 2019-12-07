@@ -310,7 +310,7 @@ class ReviewFilter(generics.ListAPIView):
     serializer_class = AvgRatingSerializer
 
     def get(self, request, city):    
-        city_instance = city.lower()
+        city_instance = city
         city_instance1=UserProfile.objects.filter(city=city_instance)
         print(city_instance1,'asskjhgfdshgfdshgfdsjhgfd')
         dict1={}
@@ -332,7 +332,7 @@ class ReviewFilter(generics.ListAPIView):
                 list1.append(dict2)
         dict1.update({"users":list1})
 
-        # print(dict1)
+        print(dict1)
         # user_instance1 = city_instance1.all()
         return Response(dict1)#,Crop=crop_instance)
 

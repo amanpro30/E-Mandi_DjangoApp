@@ -14,12 +14,22 @@ from django.db.models import Q
 from .models import *
 from django.contrib.auth.models import User
 
+
 class OrderList(generics.ListCreateAPIView):
     queryset = MarketOrder.objects.all()
     serializer_class = MarketSerializer
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user,OrderStatus='1')
+
+class OrderListId(generics.ListAPIView):
+    queryset = MarketOrder.objects.all()
+    serializer_class = MarketSerializer
+    
+    def get_queryset(self):
+        orderId = self.kwargs['id']
+        return MarketOrder.objects.filter(id=orderId)  
+
 
 
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -32,9 +42,14 @@ class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
         crop_name = MarketOrder.objects.get(pk=order_id).CropName
         print(crop_name)
         crop_variety = MarketOrder.objects.get(pk=order_id).CropVariety 
-        order_instance = MarketOrder.objects.filter(pk=order_id).update(OrderStatus='2')
+        MarketOrder.objects.filter(pk=order_id).update(OrderStatus='2')
+        order_instance = MarketOrder.objects.get(pk=order_id)
         crop_instance = Crop.objects.get(cropName=crop_name,varietyName=crop_variety)
         order_record_instance = PriceData.objects.create(crop=crop_instance,price=final_price)
+        print(order_instance)
+        print(final_price)
+        buyer_instance= Bid.objects.get(order=order_instance,price=final_price).user
+        executed_order_instance = ExecutedOrder.objects.create(orderid=order_instance,buyerid=buyer_instance)
     lookup_field='id'
 
 class BidListByOrder(generics.ListCreateAPIView):
@@ -217,3 +232,11 @@ class Quantcropcity(generics.ListAPIView):
 
         return CityCrop.objects.filter(cropname=cropname,city=city).order_by('-quantity')
 
+class ExecutedOrderView(generics.ListAPIView):
+    queryset = ExecutedOrder.objects.all()
+    serializer_class = ExecutedOrderSerializer
+
+    def get_queryset(self):
+        username = self.request.user
+        user_instance = User.objects.get(username=username)
+        return ExecutedOrder.objects.filter(buyerid=user_instance)
