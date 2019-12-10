@@ -10,12 +10,14 @@ class CropSerializer(serializers.ModelSerializer):
         model = Crop
         fields = ('cropName','varietyName')
     
-    
-
 class PriceDataSerializer(serializers.ModelSerializer):
-    crop=CropSerializer(write_only=True)
     class Meta:
         model = PriceData
-        fields = [ 'crop','timestamp','low','high','volume','closing','opening']
-        read_only_fields=['crop']
+        fields = ("__all__")
 
+
+
+class WatchListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WatchList
+        fields = [ 'user', 'crop' ]

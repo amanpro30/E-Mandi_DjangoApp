@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
+from accounts.models import UserProfile
 from .models import *
 
 class MarketSerializer(serializers.ModelSerializer):
@@ -48,3 +49,26 @@ class FutureBidSerializer(serializers.ModelSerializer):
         model = FutureBid
 
         fields = ('id' , 'price', 'advance')
+
+class CitycropSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CityCrop
+        fields = ('id', 'cropname', 'city','quantity')
+
+
+class ExecutedOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExecutedOrder
+        fields = ('orderid','buyerid',)
+
+class ExecutedOrderSerializer1(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('user',)
+
+class CropProductionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CropProduction
+        fields = ('id', 'cropname', 'city','quantity')        
