@@ -298,3 +298,35 @@ class ExecutedOrderid(generics.ListAPIView):
         usern=UserProfile.objects.filter(user=ExecutedOrder.objects.get(orderid=order).buyerid)
         print(usern.__dict__)
         return usern
+
+class Cityproduction(generics.ListAPIView):
+    queryset = CropProduction.objects.all()
+    serializer_class = CropProductionSerializer
+
+
+    def get_queryset(self):
+
+        city = self.kwargs['city']
+        return CropProduction.objects.filter(city=city).order_by('-quantity')
+
+class Cropproduction(generics.ListAPIView):
+    queryset = CropProduction.objects.all()
+    serializer_class = CropProductionSerializer
+
+
+    def get_queryset(self):
+
+        cropname = self.kwargs['cropname']
+        return CropProduction.objects.filter(cropname=cropname).order_by('-quantity')
+
+class Citycropproduction(generics.ListAPIView):
+    queryset = CropProduction.objects.all()
+    serializer_class = CropProductionSerializer
+
+
+    def get_queryset(self):
+
+        cropname = self.kwargs['cropname']
+        city = self.kwargs['city']
+
+        return CropProduction.objects.filter(cropname=cropname,city=city).order_by('-quantity')        

@@ -361,6 +361,34 @@ class peruserReview(generics.ListAPIView):
         dict1.update({"users":list1})
         return Response(list1)
 
+class percuruserReview(generics.ListAPIView):
+    queryset = UserReview.objects.all()
+    serializer_class = UserreviewSerializer
+
+
+    def get(self,request,username):
+
+        username = self.kwargs['username']
+        user_instance = User.objects.get(username=username)
+        user_instance1 = UserProfile.objects.get(user=user_instance)
+        user_instance2 = User.objects.get(username=request.user)
+        user_instance3 = UserProfile.objects.get(user=user_instance2)
+        user_instance2=UserReview.objects.filter(revieweduser=user_instance1,user=user_instance3)
+        dict1={}
+        list1=[]
+        for i in user_instance2:
+            dict2={}
+            dict2 = OrderedDict(
+            [('user', i.user.user.username),
+             ('rating', i.rating),
+             ('review', i.review),
+             ])
+            list1.append(dict2)
+        dict1.update({"users":list1})
+        return Response(list1)
+
+
+
 class getAvgRating(generics.ListAPIView):
     queryset=AvgRating.objects.all()
     serializer_class=AvgRatingSerializer

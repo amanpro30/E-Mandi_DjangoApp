@@ -52,3 +52,11 @@ class WatchListCreate(generics.ListCreateAPIView):
         watchlist_instance = WatchList(user=user_instance, crop=crop_instance)
         watchlist_instance.save()
         # serializer.save(user=user_instance, crop=crop_instance)
+
+class getCropView(generics.ListAPIView):
+    queryset = Crop.objects.all()
+    serializer_class = CropSerializer
+
+    def get_queryset(self):
+        cn = self.kwargs['cropid']
+        return Crop.objects.filter(pk=cn)

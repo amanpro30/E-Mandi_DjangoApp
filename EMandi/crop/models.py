@@ -11,7 +11,7 @@ class Crop(models.Model):
 
 class PriceData(models.Model):
     crop=models.ForeignKey(Crop,on_delete=models.CASCADE,null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)    
+    timestamp = models.DateTimeField(auto_now=True)    
     price = models.FloatField(default=0.0)
 
 

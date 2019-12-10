@@ -28,6 +28,7 @@ urlpatterns = [
     path('review/<username>/',views.userReview.as_view()),
     path('avgrating/<username>/',views.getAvgRating.as_view()),
     path('userreview/<username>/',views.peruserReview.as_view()),
+    path('userreviewcurrent/<username>/',views.percuruserReview.as_view()),
     path('userreview1/<city>/',views.ReviewFilter.as_view()),
     path('userprofile/<username>/',UsersProfileUpdate.as_view()),
     url(r'^account_activation_sent/$', views.account_activation_sent, name='account_activation_sent'),

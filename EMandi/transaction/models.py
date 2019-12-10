@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from accounts.models import *
 
 class BankDetails(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -33,7 +34,14 @@ class Balance(models.Model):
 
 def create_balance(sender, **kwargs):
     if kwargs['created']:
-        Balance.objects.create(user=kwargs['instance'],availablebalance = 0,accountbalance = 0)
+        Balance.objects.create(user=kwargs['instance'],availablebalance = 10000,accountbalance = 10000)
         BankDetails.objects.create(user=kwargs['instance'],BankName="",BranchName="",Ifsc="",AccountNumber="")
 
-post_save.connect(create_balance, sender=User)        
+        
+
+def create_avgrating(sender, **kwargs):
+    if kwargs['created']:
+        AvgRating.objects.create(user=kwargs['instance'],avgrating="0")
+
+post_save.connect(create_balance, sender=User)     
+post_save.connect(create_avgrating, sender=UserProfile)   

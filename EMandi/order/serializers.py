@@ -66,3 +66,9 @@ class ExecutedOrderSerializer1(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('user',)
+
+class CropProductionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CropProduction
+        fields = ('id', 'cropname', 'city','quantity')        

@@ -42,6 +42,35 @@ class ExecutedOrder(models.Model):
     def __str__(self):
        return f'{self.orderid.CropName}{self.buyerid.username} ExecuteOrder'
 
+class CropProduction(models.Model):
+    cropname=models.CharField(max_length=50)
+    city=models.CharField(max_length=50)
+    quantity=models.FloatField(default=0.0)
+    def __str__(self):
+        return str(self.city)
+
+def updatecropproduction(sender, **kwargs):
+    if kwargs['created']:
+        print(kwargs['instance'].__dict__)
+        print(kwargs['instance'].user)
+        user_ins=kwargs['instance'].user
+        print(user_ins)
+        user_instance = UserProfile.objects.get(user=user_ins)
+        # user_instance=UserProfile.objects.get(user=user_instance1.id)
+        print(user_instance.city)
+        city=user_instance.city
+        crop_ins=kwargs['instance'].CropName
+        # order_instance=MarketOrder.objects.get(id=order_ins.id)
+        # quantity_instance=MarketOrder.objects.get(Quantity=order_ins)
+        try:
+            quantity = CropProduction.objects.get(city=city,cropname=crop_ins).quantity
+                        
+        except:
+            quantity = 0
+
+        new_quantity = quantity + kwargs['instance'].Quantity
+        CropProduction.objects.filter(city=city,cropname=crop_ins).delete()
+        CropProduction.objects.create(city=city,cropname=crop_ins,quantity=new_quantity)
 
 class CityCrop(models.Model):
     cropname=models.CharField(max_length=50)
@@ -94,3 +123,4 @@ class FutureDeal(models.Model):
 
 
 post_save.connect(updatecitycrop, sender=ExecutedOrder)
+post_save.connect(updatecropproduction, sender=MarketOrder)
